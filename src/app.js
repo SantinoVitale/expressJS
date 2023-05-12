@@ -16,13 +16,31 @@ const products = [
 ]
 
 app.get("/products", (req, res) => {
-    let limit = req.query
-    if(!limit){
-        return res.send({products})
+    
+    const limitParsed = parseInt(req.query.limit)
+    if(!limitParsed){
+        return res.json({status:"success", msg: "no limit filtred", data:{products}})
     } else{
-        console.log(parseFloat(limit));
-        let filterProducts = products.slice(0, 2)
-        res.send(filterProducts)
+        let filterProducts = products.slice(0, limitParsed)
+        return res.json({status:"success", msg: "limit filtred", data:{filterProducts}})
+    }
+    
+})
+
+app.get("/products/:pid", (req, res) => {
+    
+    const pid = parseInt(req.params.pid)
+    const productFind = products.find((p) => p.id == pid)
+    if(!productFind == ""){
+        return res.json({status:"success",
+            msg: "product finded",
+            data:{productFind}
+        })
+    } else{
+        return res.json({status:"error",
+        msg: "Not found",
+        data:{}
+    })
     }
     
 })
