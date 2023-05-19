@@ -94,4 +94,15 @@ productsRouter.delete("/:pid", (req, res) => {
     const pid = parseInt(req.params.pid)
     const pm = new ProductManager()
     pm.deleteProduct(pid)
+    if(pm){
+        res.status(200).json({status:"success",
+            msg: "product deleted",
+            data:{pid}
+        })
+    } else {
+        res.status(400).json({status:"error",
+            msg: "error trying to delete the product",
+            data:{}
+        })
+    }
 })

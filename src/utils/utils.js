@@ -56,7 +56,8 @@ export class ProductManager {
         if(foundId){
             Object.assign(foundId, update);
             this.#products = products
-            return this.#saveData()
+            this.#saveData()
+            return true
         } else {
             return false // * If the product isn't found, print an error message
         }
@@ -70,9 +71,10 @@ export class ProductManager {
         const foundId = products.filter(product => product.id !== id);
         if(validator){
             this.#products = foundId
-            return this.#saveData()
+            this.#saveData()
+            return true
         } else {
-            console.error("ERROR not found");
+            return false
         }
     }
 
@@ -157,6 +159,7 @@ export class Cart{
                 cartProductsFind.quantity += q.quantity
                 cart.products = cartProducts
                 this.#saveData()
+                return true
             } else{
                 const newOrder = {
                 id: pidFind.id,
@@ -165,8 +168,11 @@ export class Cart{
                 cartProducts.push(newOrder)
                 cart.products = cartProducts
                 this.#saveData()
+                return true
             }
             
+        }else {
+            return false
         }
     }
 }
@@ -184,7 +190,7 @@ export class Cart{
 
 {
     "id": 2,
-    "title: "producto2",
+    "title": "producto2",
     "description": "description2",
     "code":"12346",
     "price": 100,

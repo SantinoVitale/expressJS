@@ -50,5 +50,15 @@ cartRouter.post("/:cid/products/:pid", (req, res) => {
     const pQuantity = req.body
     const c = new Cart()
     const addProductToCart = c.addProductToCart(cid, pid, pQuantity)
-    
+    if(addProductToCart){
+        return res.status(200).json({status:"success",
+            msg: "product added to the cart",
+            data:{pQuantity}
+        })
+    } else{
+        return res.status(400).json({status:"error",
+            msg: "can´t added the product to the cart",
+            data:{}
+        })
+    }
 })
