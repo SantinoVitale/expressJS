@@ -52,39 +52,28 @@ export class ProductManager {
     updateProduct = (id, update) => {
         let products = this.#products
         
-        for(let i = 1; i < products.length; i++){
-            console.log(i)
-            if(products[i].id === id){
-                
-                products[i] = {
-                    ...products[i],
-                    ...update
-                }
-                
-            }
+        const foundId = products.find(e => e.id === id) // * Find the product with the specified id
+        if(foundId){
+            Object.assign(foundId, update);
+            this.#products = products
+            return this.#saveData()
+        } else {
+            return false // * If the product isn't found, print an error message
         }
 
-        this.#products = products
-        return this.#saveData()
+        
     }
 
     deleteProduct = (id) => {
-        let products = this.#products;
-        let index = null;
-        for(let i = 0; i < products.length; i++){
-            if(products[i].id === id){
-                index = i
-            }
-        }
-
-        if(index || index === 0){
-            products = products.slice(index, 1);
+        let products = this.#products
+        const validator = products.find(e => e.id === id)
+        const foundId = products.filter(product => product.id !== id);
+        if(validator){
+            this.#products = foundId
+            return this.#saveData()
         } else {
-            throw new Error("No se encontró el producto");
+            console.error("ERROR not found");
         }
-
-        this.#products = products
-        return this.#saveData()
     }
 
     getProducts = () => {
@@ -101,25 +90,109 @@ export class ProductManager {
     }
 
 }
-const product1 = {
-    id: 1,
-    title: "producto1",
-    description: "description1",
-    code:"12345",
-    price: 300,
-    status: true,
-    stock: 45,
-    category: "categoria1"
+
+export class Cart{
+    #cart = []
+    #path
+    #id 
+
+    constructor(){
+        this.#path = "./src/data/cart.json";
+        if(fs.existsSync(this.#path)){
+            const file = fs.readFileSync(this.#path, "utf-8")
+            const data = JSON.parse(file)
+
+            this.#cart = data
+        } else {
+            const data = JSON.stringify([])
+            fs.writeFileSync(this.#path, data, () => {
+                this.#cart = []
+            })
+        }
+    }
+        #saveData = () => {
+            const data = JSON.stringify(this.#cart)
+            fs.writeFileSync(this.#path, data, (err)=> {
+                if(err) throw new Error(err)
+                return "success"
+            })
+        }
+
+    createCart = (cart) => {
+        if(!cart.products && cart.products == []) return false
+        const cartId = this.#cart.find((p) => p.id == cart.id)
+        if(cartId == undefined){
+            this.#cart.push(cart)
+            this.#saveData()
+            return true
+            
+        } else{
+            return false
+        }
+    }
+
+    getCartById = (id) => {
+        const cart =  this.#cart.find(cart => cart.id === id)
+        if(!cart){
+            return false
+        }
+
+        return cart
+    }
+
+    addProductToCart = (cid, pid, q) => {
+        const cart =  this.#cart.find(cart => cart.id === cid)
+        const products = "./src/data/products.json";
+        if(fs.existsSync(products)){
+            const file = fs.readFileSync(products, "utf-8")
+            const data = JSON.parse(file)
+            const pidFind = data.find(p => p.id === pid)
+            const cartProducts = cart.products
+            const newOrder = {
+                id: pidFind.id,
+                quantity: q
+            }
+            cartProducts.push(newOrder)
+            console.log(cartProducts);
+        }
+        /*if(!cart){
+            return false
+        } else {
+            const products = cart.products
+            const findExistingId = products.find(p => p.id === pid)
+            if(!findExistingId){
+                if(!q.quantity) return false
+                Object.assign(cart.products, products);
+                this.#cart = cart
+                return this.#saveData()
+            } else {
+                return console.log("se encontro uno con el mismo id");
+            }
+        }*/
+
+    }
+
+    
+}
+/* PRODUCTOS  DE PRUEBA PARA SUBIR
+{
+    "id": 1,
+    "title": "producto1",
+    "description": "description1",
+    "code":"12345",
+    "price": 300,
+    "status": true,
+    "stock": 45,
+    "category": "categoria1"
 }
 
-const product2 = {
-    id: 2,
-    title: "producto2",
-    description: "description2",
-    code:"12346",
-    price: 100,
-    status: false,
-    stock: 25,
-    category: "categoria2"
+{
+    "id": 2,
+    "title: "producto2",
+    "description": "description2",
+    "code":"12346",
+    "price": 100,
+    "stock": 25,
+    "category": "categoria2"
 }
-
+*/

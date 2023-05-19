@@ -68,7 +68,17 @@ productsRouter.put("/:pid", (req, res) => {
     if(!productBody.id){
         const pm = new ProductManager()
         const putProduct = pm.updateProduct(pid, productBody)
-        console.log(putProduct);
+        if(putProduct !== false){
+            res.status(200).json({status:"success",
+            msg: "product updated",
+            data:{putProduct}
+            })
+        } else {
+            res.status(400).json({status:"error",
+            msg: "error",
+            data:{}
+            })
+        }
         
     } else {
         res.status(400).json({status:"error",
@@ -78,4 +88,10 @@ productsRouter.put("/:pid", (req, res) => {
     }
     
 
+})
+
+productsRouter.delete("/:pid", (req, res) => {
+    const pid = parseInt(req.params.pid)
+    const pm = new ProductManager()
+    pm.deleteProduct(pid)
 })
