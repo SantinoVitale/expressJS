@@ -122,7 +122,10 @@ export class Cart{
         if(!cart.products && cart.products == []) return false
         const cartId = this.#cart.find((p) => p.id == cart.id)
         if(cartId == undefined){
-            this.#cart.push(cart)
+            this.#cart.push({
+                id: cart.id,
+                products: []
+            })
             this.#saveData()
             return true
             
@@ -141,38 +144,31 @@ export class Cart{
     }
 
     addProductToCart = (cid, pid, q) => {
-        const cart =  this.#cart.find(cart => cart.id === cid)
+        
+        const cart =  this.#cart.find((cart) => cart.id === cid);
         const products = "./src/data/products.json";
         if(fs.existsSync(products)){
-            const file = fs.readFileSync(products, "utf-8")
-            const data = JSON.parse(file)
-            const pidFind = data.find(p => p.id === pid)
-            const cartProducts = cart.products
-            const newOrder = {
+            const file = fs.readFileSync(products, "utf-8");
+            const data = JSON.parse(file);
+            const pidFind = data.find(p => p.id === pid);
+            const cartProducts = cart.products;
+            const cartProductsFind = cartProducts.find(p => p.id === pid);
+            if(cartProductsFind !== undefined){
+                cartProductsFind.quantity += q.quantity
+                cart.products = cartProducts
+                this.#saveData()
+            } else{
+                const newOrder = {
                 id: pidFind.id,
-                quantity: q
+                quantity: q.quantity
+                }
+                cartProducts.push(newOrder)
+                cart.products = cartProducts
+                this.#saveData()
             }
-            cartProducts.push(newOrder)
-            console.log(cartProducts);
+            
         }
-        /*if(!cart){
-            return false
-        } else {
-            const products = cart.products
-            const findExistingId = products.find(p => p.id === pid)
-            if(!findExistingId){
-                if(!q.quantity) return false
-                Object.assign(cart.products, products);
-                this.#cart = cart
-                return this.#saveData()
-            } else {
-                return console.log("se encontro uno con el mismo id");
-            }
-        }*/
-
     }
-
-    
 }
 /* PRODUCTOS  DE PRUEBA PARA SUBIR
 {
