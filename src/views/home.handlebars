@@ -1,0 +1,13 @@
+<div>
+  {{#if title}}
+  <h1 style="text-align: center;">{{title}}</h1>
+  {{else}}
+  <h1>UNKOWN TITLE</h1>
+  {{/if}}
+  {{#each products}}
+  <p>nombre: {{this.title}}</p>
+  <p>id: {{this.id}}</p>
+  <p>precio: ${{this.price}}</p>
+  <hr/>
+  {{/each}}
+</div>

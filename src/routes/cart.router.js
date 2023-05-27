@@ -1,5 +1,5 @@
 import express from "express";
-import { Cart } from "../utils/utils.js";
+import { Cart } from "../utils.js";
 
 
 const app = express()
