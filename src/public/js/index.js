@@ -15,7 +15,7 @@ const deleteBtn = document.getElementById("input-delete")
 deleteBtn.addEventListener("click", (e) => {
   e.preventDefault();
   Swal.fire({
-    title: "Eliminsar un producto",
+    title: "Eliminar un producto",
     text: "Ingresa un Id para borrar ese producto",
     input: "number",
     confirmButtonText: "Borrar producto",
