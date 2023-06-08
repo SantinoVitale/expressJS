@@ -1,9 +1,9 @@
-import { Router } from "express";
-import { productModel } from "../dao/models/product.model";
+import express from "express";
+import { productModel } from "../dao/models/product.model.js";
 
-const router = Router();
+export const mongoRouter = express.Router();
 
-router.get("/", async (req, res) => {
+mongoRouter.get("/", async (req, res) => {
   try{
     let products = await productModel.find()
     res.send({result: "success", payload: products})

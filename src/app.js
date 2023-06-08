@@ -7,6 +7,8 @@ import { routerVistaProducts } from "./routes/vista.products.router.js";
 import { routerVistaRealTimeProducts } from "./routes/realtime.products.router.js";
 import { __dirname, ProductManager } from "./utils.js";
 import path from "path";
+import mongoose from "mongoose";
+import {mongoRouter} from "./routes/mongoProducts.js";
 
 const app = express()
 app.use(express.json());
@@ -15,13 +17,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // * MONGOOSE
+mongoose.set("strictQuery", false)
 mongoose.connect("mongodb+srv://s_vitale:svet5694@ecommercecluster.qhialqm.mongodb.net/", (error) => {
     if(error){
         console.log("Cannot connect to database", error);
-        process.exit();
     }
 })
-app.use("/mongo/products", mongoProducts)
+app.use("/mongo/products", mongoRouter)
 
 // * CONFIGURACION DEL MOTOR DE HANDLEBARS
 app.engine("handlebars", handlebars.engine())
