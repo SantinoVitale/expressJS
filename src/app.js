@@ -8,7 +8,7 @@ import { routerVistaRealTimeProducts } from "./routes/realtime.products.router.j
 import { __dirname, ProductManager } from "./utils.js";
 import path from "path";
 import mongoose from "mongoose";
-import {mongoRouter} from "./routes/mongoProducts.js";
+import {mongoRouter} from "./routes/products.mongo.js";
 
 const app = express()
 app.use(express.json());
