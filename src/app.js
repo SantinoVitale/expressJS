@@ -14,6 +14,15 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+// * MONGOOSE
+mongoose.connect("mongodb+srv://s_vitale:svet5694@ecommercecluster.qhialqm.mongodb.net/", (error) => {
+    if(error){
+        console.log("Cannot connect to database", error);
+        process.exit();
+    }
+})
+app.use("/mongo/products", mongoProducts)
+
 // * CONFIGURACION DEL MOTOR DE HANDLEBARS
 app.engine("handlebars", handlebars.engine())
 app.set("views", __dirname + "/views")
