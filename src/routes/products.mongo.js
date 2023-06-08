@@ -22,7 +22,6 @@ mongoRouter.post("/", async(req, res) => {
     }else {
   
         let result = await productModel.create({
-          id,
           title,
           description,
           price,

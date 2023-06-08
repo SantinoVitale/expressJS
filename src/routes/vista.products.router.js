@@ -1,9 +1,8 @@
 import express from "express";
-import { ProductManager } from "../utils.js";
+import { productModel } from "../dao/models/product.model.js";
 
 export const routerVistaProducts = express.Router()
-routerVistaProducts.get("/", (req, res) => {
-  const pm = new ProductManager()
-  const products = pm.getProducts()
-  return res.render("home", {title: "products", products})
+routerVistaProducts.get("/", async(req, res) => {
+  let products = await productModel.find().lean()
+  return res.render("home", {h1title: "products", products})
 })

@@ -9,6 +9,7 @@ import { __dirname, ProductManager } from "./utils.js";
 import path from "path";
 import mongoose from "mongoose";
 import {mongoRouter} from "./routes/products.mongo.js";
+import { cartMongo } from "./routes/cart.mongo.js";
 
 const app = express()
 app.use(express.json());
@@ -24,6 +25,7 @@ mongoose.connect("mongodb+srv://s_vitale:svet5694@ecommercecluster.qhialqm.mongo
     }
 })
 app.use("/mongo/products", mongoRouter)
+app.use("/mongo/carts", cartMongo)
 
 // * CONFIGURACION DEL MOTOR DE HANDLEBARS
 app.engine("handlebars", handlebars.engine())
