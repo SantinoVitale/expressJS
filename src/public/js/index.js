@@ -17,7 +17,7 @@ deleteBtn.addEventListener("click", (e) => {
   Swal.fire({
     title: "Eliminar un producto",
     text: "Ingresa un Id para borrar ese producto",
-    input: "number",
+    input: "text",
     confirmButtonText: "Borrar producto",
     showCancelButton: true,
     inputValidator: (value) => {
@@ -49,7 +49,7 @@ socket.on("get_products", (products) => {
   let contenido = "";
   products.forEach((products) => {
     contenido = contenido + `
-    <p>id: ${products.id}</p>
+    <p>id: ${products._id}</p>
     <p>title: ${products.title}</p>
     <p>price: ${products.price}</p>
     <p>descripcion: ${products.description}</p>

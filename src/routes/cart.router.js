@@ -1,59 +1,66 @@
 import express from "express";
-import { Cart } from "../utils.js";
-
+import { cartModel } from "../dao/models/cart.model.js";
 
 const app = express()
 export const cartRouter = express.Router()
 
-cartRouter.post("/", (req, res) => {
-    const cartBody = req.body
-    if(cartBody.id){
-        res.status(400).json({status:"error",
-                msg: "do not post an id",
-                data:{}
-            })
-    }else {
-        cartBody.id = +(Math.random() * 100000).toFixed(0);
-        const c = new Cart()
-        const newCart = c.createCart(cartBody)
-        if(newCart){
-            res.status(201).json({status:"success",
-                    msg: "product added",
-                    data:{newCart}
-                })
-        } else {
-            res.status(400).json({status:"error", msg: "asegurese de rellenar todos los campos", data:{} })
-        }
-    }
-})
-
-cartRouter.get("/:cid", (req, res) => {
-    const cid = parseInt(req.params.cid)
-    const c = new Cart()
-    const cartFind = c.getCartById(cid)
-    if(cartFind){
-        return res.status(200).json({status:"success",
-            msg: "product finded",
-            data:{cartFind}
-        })
-    } else{
-        return res.status(400).json({status:"error",
-        msg: "Not found",
-        data:{}
+cartRouter.post("/", async (req, res) => {
+  let {products} = req.params
+  let result = await cartModel.create({products})
+  if(result){
+    res.status(201).json({status:"success",
+      msg: "product added",
+      data:{result}
     })
-    }
+  } else {
+    res.status(400).json({status:"error", msg: "asegurese de rellenar todos los campos", data:{} })
+  }
 })
 
-cartRouter.post("/:cid/products/:pid", (req, res) => {
-    const cid =parseInt(req.params.cid)
-    const pid = parseInt(req.params.pid)
-    const pQuantity = req.body
-    const c = new Cart()
-    const addProductToCart = c.addProductToCart(cid, pid, pQuantity)
-    if(addProductToCart){
+cartRouter.get("/", async(req, res) => {
+  try{
+    let carts = await cartModel.find()
+    res.send({result: "success", payload: carts})
+  } catch(error){
+    console.log("Hubo un error: ", error);
+  }
+})
+
+cartRouter.get("/:cid", async (req, res) => {
+  let {cid} = req.params
+  let cartsId = await cartModel.find({_id:cid})
+  if(cartsId){
+    return res.status(200).json({status:"success",
+      msg: "product finded",
+      data:{cartsId}
+    })
+  } else{
+    return res.status(400).json({status:"error",
+    msg: "Not found",
+    data:{}
+  })
+  }
+})
+
+cartRouter.post("/:cid/products/:pid", async (req, res) => {
+  let {cid} = req.params
+  let {pid} = req.params
+  let pQuantity = req.body
+  const info ={
+    _id: pid,
+    quantity: pQuantity.quantity
+  }
+  let sameQ = await cartModel.find({_id: cid})
+  const findRepeatedProduct = sameQ[0].products.find((e) => e._id === pid)
+  if(findRepeatedProduct){
+    findRepeatedProduct.quantity += pQuantity.quantity
+    info.quantity = findRepeatedProduct.quantity
+  }
+  let result = await cartModel.updateOne({_id: cid}, {products:info})
+    if(result){
         return res.status(200).json({status:"success",
             msg: "product added to the cart",
-            data:{pQuantity}
+            data:{result}
         })
     } else{
         return res.status(400).json({status:"error",

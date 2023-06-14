@@ -1,15 +1,14 @@
 import express from "express";
-import { productsRouter } from "./routes/products.router.js";
-import { cartRouter } from "./routes/cart.router.js";
 import handlebars from "express-handlebars";
 import { Server } from "socket.io";
 import { routerVistaProducts } from "./routes/vista.products.router.js";
 import { routerVistaRealTimeProducts } from "./routes/realtime.products.router.js";
-import { __dirname, ProductManager } from "./utils.js";
+import { __dirname } from "./utils.js";
 import path from "path";
 import mongoose from "mongoose";
-import {mongoRouter} from "./routes/products.mongo.js";
-import { cartMongo } from "./routes/cart.mongo.js";
+import {productsRouter} from "./routes/products.router.js";
+import { cartRouter} from "./routes/cart.router.js";
+import {productModel} from "./dao/models/product.model.js"
 
 const app = express()
 app.use(express.json());
@@ -19,13 +18,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // * MONGOOSE
 mongoose.set("strictQuery", false)
-mongoose.connect("mongodb+srv://s_vitale:svet5694@ecommercecluster.qhialqm.mongodb.net/", (error) => {
+mongoose.connect("mongodb://localhost:27017/ecommerce", (error) => {
     if(error){
         console.log("Cannot connect to database", error);
     }
+    console.log("conectado pa");
 })
-app.use("/mongo/products", mongoRouter)
-app.use("/mongo/carts", cartMongo)
+app.use("/api/products", productsRouter)
+app.use("/api/carts", cartRouter)
 
 // * CONFIGURACION DEL MOTOR DE HANDLEBARS
 app.engine("handlebars", handlebars.engine())
@@ -37,11 +37,6 @@ app.use("/vista/products", routerVistaProducts)
 
 // * HTML REAL TIPO VISTA
 app.use("/vista/realtimeproducts", routerVistaRealTimeProducts);
-
-
-// * ENDPOINT TIPO API CON DATOS CRUDOS EN JSON
-app.use("/api/products", productsRouter);
-app.use("/api/cart", cartRouter);
 
 app.get("*", (req, res) => {
     return res.status(404).json({
@@ -55,18 +50,26 @@ const httpServer = app.listen(8080, () => {
 })
 const socketServer = new Server(httpServer);
 
-socketServer.on("connection", (socket) => {
-    const pm = new ProductManager()
-    const getProducts = pm.getProducts()
-    let products = getProducts
+socketServer.on("connection", async (socket) => {
+    let products = await productModel.find()
     socketServer.emit("get_products", products);
-    socket.on("product_front_to_back", (addProduct) => {
-        addProduct.id = +(Math.random() * 100000).toFixed(0);
-        pm.addProduct(addProduct)
+    socket.on("product_front_to_back", async (addProduct) => {
+        let {title, description, price, code, thumbail, stock, category} = addProduct
+        let result = await productModel.create({
+            title,
+            description,
+            price,
+            code,
+            thumbail,
+            stock,
+            category
+          })
+        let products = await productModel.find()
         socketServer.emit("get_products", products);
     });
-    socket.on("delete_product_front_to_back", (id) => {
-        pm.deleteProduct(+(id.value))
+    socket.on("delete_product_front_to_back", async (id) => {
+        let result = await productModel.deleteOne({_id:id.value})
+        let products = await productModel.find()
         socketServer.emit("get_products", products);
     })
 })
