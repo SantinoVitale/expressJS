@@ -17,12 +17,14 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // * MONGOOSE
+
 mongoose.set("strictQuery", false)
-mongoose.connect("mongodb+srv://s_vitale:svet5694@ecommercecluster.qhialqm.mongodb.net/", (error) => {
+mongoose.connect("mongodb://root:example@192.168.44.125:27017/ecommerce?authSource=admin", (error) => {
     if(error){
         console.log("Cannot connect to database", error);
     }
     console.log("conectado pa");
+    
 })
 app.use("/api/products", productsRouter)
 app.use("/api/carts", cartRouter)
