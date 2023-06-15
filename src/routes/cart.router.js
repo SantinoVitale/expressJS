@@ -20,6 +20,7 @@ cartRouter.post("/", async (req, res) => {
 cartRouter.get("/", async(req, res) => {
   try{
     let carts = await cartModel.find()
+    
     res.send({result: "success", payload: carts})
   } catch(error){
     console.log("Hubo un error: ", error);
@@ -28,7 +29,7 @@ cartRouter.get("/", async(req, res) => {
 
 cartRouter.get("/:cid", async (req, res) => {
   let {cid} = req.params
-  let cartsId = await cartModel.find({_id:cid})
+  let cartsId = await cartModel.find({_id:cid}).populate("products.product")
   if(cartsId){
     return res.status(200).json({status:"success",
       msg: "product finded",
@@ -46,17 +47,15 @@ cartRouter.post("/:cid/products/:pid", async (req, res) => {
   let {cid} = req.params
   let {pid} = req.params
   let pQuantity = req.body
-  const info ={
-    _id: pid,
-    quantity: pQuantity.quantity
-  }
   let sameQ = await cartModel.find({_id: cid})
-  const findRepeatedProduct = sameQ[0].products.find((e) => e._id === pid)
+  const findRepeatedProduct = sameQ[0].products.find((e) => JSON.stringify(e.product) === JSON.stringify(pid))
   if(findRepeatedProduct){
     findRepeatedProduct.quantity += pQuantity.quantity
-    info.quantity = findRepeatedProduct.quantity
+    sameQ.products = findRepeatedProduct
+  } else {
+    sameQ[0].products.push({product: pid, quantity: pQuantity.quantity})
   }
-  let result = await cartModel.updateOne({_id: cid}, {products:info})
+  let result = await cartModel.updateOne({_id: cid}, sameQ[0])
     if(result){
         return res.status(200).json({status:"success",
             msg: "product added to the cart",

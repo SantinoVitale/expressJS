@@ -18,7 +18,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // * MONGOOSE
 mongoose.set("strictQuery", false)
-mongoose.connect("mongodb://localhost:27017/ecommerce", (error) => {
+mongoose.connect("mongodb+srv://s_vitale:svet5694@ecommercecluster.qhialqm.mongodb.net/", (error) => {
     if(error){
         console.log("Cannot connect to database", error);
     }

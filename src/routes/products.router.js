@@ -5,8 +5,12 @@ export const productsRouter = express.Router();
 
 productsRouter.get("/", async (req, res) => {
   try{
-    let products = await productModel.find()
-    res.send({result: "success", payload: products})
+    let limit = +(req.query.limit)
+    let page = +(req.query.page)
+    let query = req.query.query
+    let sort = req.query.sort
+    let products = await productModel.paginate(query ? {category: query} : {} ,{limit: limit ? limit : 10, page: page ? page : 1, sort:(sort ? {price: sort}: {})})
+    res.send({result: "success", payload: products.docs, totalPages: products.totalPages, prevPage: products.prevPage, nextPage: products.nextPage, page: products.page, hasPrevPage: products.hasPrevPage, hasNextPage: products.hasNextPage, prevLink: products.prevLink, nextLink: products.nextLink})
   } catch(error){
     console.log("Hubo un error", error);
   }
@@ -15,9 +19,10 @@ productsRouter.get("/", async (req, res) => {
 productsRouter.post("/", async(req, res) => {
   let {title, description, price, code, thumbail, stock, category} = req.body
     if(!title||!description||!price||!code||!stock||!category){
-        res.status(400).json({status:"error",
-                msg: "incomplete values",
-                data:{}
+        res.status(400).json({
+          status:"error",
+          msg: "incomplete values",
+          data:{}
         })
     }else {
   

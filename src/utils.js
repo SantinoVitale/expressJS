@@ -6,7 +6,7 @@ import { fileURLToPath } from "url";
 export const __filename = fileURLToPath(import.meta.url);
 export const __dirname = path.dirname(__filename);
 
-export class ProductManager {
+/*export class ProductManager {
 
     #products = []
     #path
@@ -96,9 +96,9 @@ export class ProductManager {
         return product
     }
 
-}
+}*/
 
-export class Cart{
+/*export class Cart{
     #cart = []
     #path
     #id 
@@ -180,26 +180,4 @@ export class Cart{
             return false
         }
     }
-}
-/* PRODUCTOS  DE PRUEBA PARA SUBIR
-{
-    "id": 1,
-    "title": "producto1",
-    "description": "description1",
-    "code":"12345",
-    "price": 300,
-    "status": true,
-    "stock": 45,
-    "category": "categoria1"
-}
-
-{
-    "id": 2,
-    "title": "producto2",
-    "description": "description2",
-    "code":"12346",
-    "price": 100,
-    "stock": 25,
-    "category": "categoria2"
-}
-*/
+}*/
