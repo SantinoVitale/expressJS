@@ -9,12 +9,11 @@
     <p>nombre: {{this.title}}</p>
     <p>id: {{this._id}}</p>
     <p>precio: ${{this.price}}</p>
-    <input type="submit" value="Agregar producto al carrito">
+    <input type="button" value="Agregar producto al carrito" onclick="addProduct({{this._id}});">
   </form>
   <hr/>
     
   {{/each}}
-  
 </div>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="/js/vista.products.js"></script>
