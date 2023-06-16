@@ -1,7 +1,5 @@
 [{
-  "_id": {
-    "$oid": "64824d6250b8f8c95f4ba9f3"
-  },
+  "_id": ObjectID("64824d6250b8f8c95f4ba9f3"),
   "title": "Nintendo Switch",
   "description": "Consola",
   "price": 500,
@@ -11,9 +9,7 @@
   "category": "consolas",
   "__v": 0
 },{
-  "_id": {
-    "$oid": "64824d7050b8f8c95f4ba9f5"
-  },
+  "_id": ObjectID("64824d7050b8f8c95f4ba9f5"),
   "title": "Xbox",
   "description": "Consola",
   "price": 1000,
@@ -23,9 +19,7 @@
   "category": "consolas",
   "__v": 0
 },{
-  "_id": {
-    "$oid": "64824d7a50b8f8c95f4ba9f7"
-  },
+  "_id": ObjectID("64824d7a50b8f8c95f4ba9f7"),
   "title": "PS4",
   "description": "Consola",
   "price": 800,
@@ -35,9 +29,7 @@
   "category": "consolas",
   "__v": 0
 },{
-  "_id": {
-    "$oid": "648a4b7970c378eaa7759bcc"
-  },
+  "_id": ObjectID("648a4b7970c378eaa7759bcc"),
   "title": "PS2",
   "description": "Consola vieja",
   "price": 100,
@@ -47,9 +39,7 @@
   "category": "consolas",
   "__v": 0
 },{
-  "_id": {
-    "$oid": "648a55e370c378eaa7759bce"
-  },
+  "_id": ObjectID("648a55e370c378eaa7759bce"),
   "title": "Mouse Logitech G Pro",
   "description": "teclado optico",
   "price": 100,
@@ -59,9 +49,7 @@
   "category": "mouse",
   "__v": 0
 },{
-  "_id": {
-    "$oid": "648a561670c378eaa7759bd0"
-  },
+  "_id": ObjectID("648a561670c378eaa7759bd0"),
   "title": "Teclado Redragon Kumara K552",
   "description": "teclado mecanico",
   "price": 20,
@@ -71,9 +59,7 @@
   "category": "teclado",
   "__v": 0
 },{
-  "_id": {
-    "$oid": "648a563e70c378eaa7759bd2"
-  },
+  "_id": ObjectID("648a563e70c378eaa7759bd2"),
   "title": "Oneplus 7 pro",
   "description": "celular Oneplus",
   "price": 500,
@@ -83,9 +69,7 @@
   "category": "celulares",
   "__v": 0
 },{
-  "_id": {
-    "$oid": "648a56f970c378eaa7759bd5"
-  },
+  "_id":ObjectID("648a56f970c378eaa7759bd5"),
   "title": "Tarjeta grafica rx570 8gb",
   "description": "placa de video amd",
   "price": 200,
@@ -95,9 +79,7 @@
   "category": "grafica",
   "__v": 0
 },{
-  "_id": {
-    "$oid": "648a572570c378eaa7759bd7"
-  },
+  "_id": ObjectID("648a572570c378eaa7759bd7"),
   "title": "Mousepad Redragon XL",
   "description": "mousepad grande",
   "price": 10,
@@ -107,9 +89,7 @@
   "category": "mousepad",
   "__v": 0
 },{
-  "_id": {
-    "$oid": "648a57b570c378eaa7759bda"
-  },
+  "_id":ObjectID("648a57b570c378eaa7759bda"),
   "title": "Memoria Udimm Ddr4 8 Gb 2666 Micron",
   "description": "Memoria RAM Udimm Ddr4 de 8 Gb con una frecuencia de 2666 MHz",
   "price": 33,
@@ -119,9 +99,7 @@
   "category": "memorias",
   "__v": 0
 },{
-  "_id": {
-    "$oid": "648a57e770c378eaa7759bdc"
-  },
+  "_id": ObjectID("648a57e770c378eaa7759bdc"),
   "title": "Motherboard Am4 Msi A520m - A Pro",
   "description": "Mother Board MSI A520M-A PRO. Soporta procesadores Desktop 3ra Gen AMD Ryzen™ Desktop y AMD Ryzen™ 4000 Serie G.",
   "price": 133,
@@ -131,9 +109,7 @@
   "category": "motherboard",
   "__v": 0
 },{
-  "_id": {
-    "$oid": "648a581670c378eaa7759bdf"
-  },
+  "_id":ObjectID("648a581670c378eaa7759bdf"),
   "title": "Procesador Amd Ryzen 3 4100 3.8 Ghz Am4 Oem",
   "description": "N° de núcleos de CPU: 4. N° de hilos: 8. Package: AM4. Requiere Placa de Video Adicional. Incluye Cooler AMD",
   "price": 152,
@@ -143,9 +119,7 @@
   "category": "procesadores",
   "__v": 0
 },{
-  "_id": {
-    "$oid": "648a584370c378eaa7759be1"
-  },
+  "_id":ObjectID("648a584370c378eaa7759be1"),
   "title": "Mouse Gamer Wesdar Wd-Gm2-Black+Green",
   "description": "Mouse Gamer USB. Diseño ergonómico y ultra durable. Luz LED verde incorporada. Contiene 8 Botones.",
   "price": 15,

@@ -1,3 +1,3 @@
-const addProduct = (product) => {
-    console.log(product);
+const addProduct = (productId) => {
+    console.log(productId);
 }

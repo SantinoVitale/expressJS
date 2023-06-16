@@ -1,6 +1,7 @@
 import express from "express";
 import handlebars from "express-handlebars";
 import { Server } from "socket.io";
+import { routerVistaCarts } from "./routes/vista.carts.router.js";
 import { routerVistaProducts } from "./routes/vista.products.router.js";
 import { routerVistaRealTimeProducts } from "./routes/realtime.products.router.js";
 import { __dirname } from "./utils.js";
@@ -19,7 +20,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // * MONGOOSE
 
 mongoose.set("strictQuery", false)
-mongoose.connect("mongodb+srv://s_vitale:svet5694@ecommercecluster.qhialqm.mongodb.net", (error) => {
+mongoose.connect("mongodb://root:example@192.168.44.125:27017/ecommerce?authSource=admin", (error) => {
     if(error){
         console.log("Cannot connect to database", error);
     }
@@ -36,6 +37,7 @@ app.set("view engine" , "handlebars")
 
 // * VISTA products
 app.use("/vista/products", routerVistaProducts)
+app.use("/vista/carts", routerVistaCarts)
 
 // * HTML REAL TIPO VISTA
 app.use("/vista/realtimeproducts", routerVistaRealTimeProducts);
