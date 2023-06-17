@@ -9,11 +9,25 @@
     <p>nombre: {{this.title}}</p>
     <p>id: {{this._id}}</p>
     <p>precio: ${{this.price}}</p>
-    <input type="button" value="Agregar producto al carrito" onclick="addProduct('{{this._id}}');">
+    <input type="button" value="Agregar producto al carrito" onclick="addProduct('{{{this._id}}}');">
   </form>
   <hr/>
-    
   {{/each}}
+    <h3>Paginacion</h3>
+    <p>
+      pagingCounter: 
+      {{pagingCounter}}
+      totalPages: 
+      {{totalPages}}
+      page: 
+      {{page}}
+      {{#if hasPrevPage}}
+      <a href="http://localhost:8080/vista/products?page={{prevPage}}">prev page</a>
+      {{/if}}
+      {{#if hasNextPage}}
+      <a href="http://localhost:8080/vista/products?page={{nextPage}}">next page</a>
+      {{/if}}
+    </p>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="/js/vista.products.js"></script>

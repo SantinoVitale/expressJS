@@ -5,7 +5,16 @@ export const routerVistaCarts = express.Router()
 routerVistaCarts.get("/:cid", async(req, res) => {
   let {cid} = req.params
   let carts = await cartModel.find({_id: cid}).populate("products.product")
-  console.log(JSON.stringify(carts));
-  return res.render("carts", {h1title: "cart", carts})
+  const cart = carts[0].products.map((p) => {
+    return {
+      quantity: p.quantity,
+      title: p.product.title,
+      description: p.product.description,
+      price: p.product.price,
+      category: p.product.category,
+
+    }
+  })
+  return res.status(200).render("carts", {h1title: cid + " cart´s" , cart: cart})
   
 })

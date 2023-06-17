@@ -20,7 +20,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // * MONGOOSE
 
 mongoose.set("strictQuery", false)
-mongoose.connect("mongodb://root:example@192.168.44.125:27017/ecommerce?authSource=admin", (error) => {
+mongoose.connect("mongodb+srv://s_vitale:svet5694@ecommercecluster.qhialqm.mongodb.net/", (error) => {
     if(error){
         console.log("Cannot connect to database", error);
     }
@@ -67,7 +67,7 @@ socketServer.on("connection", async (socket) => {
             thumbail,
             stock,
             category
-          })
+        })
         let products = await productModel.find()
         socketServer.emit("get_products", products);
     });

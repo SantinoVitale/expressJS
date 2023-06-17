@@ -4,12 +4,13 @@
   {{else}}
   <h1>UNKOWN TITLE</h1>
   {{/if}}
-  {{#each carts.products}}
+  {{#each cart}}
+    <p>cantidad: {{this.quantity}}</p> 
     <p>nombre: {{this.title}}</p>
-    <p>id: {{this._id}}</p>
-    <p>precio: ${{this.price}}</p>
-    <input type="button" value="Agregar producto al carrito" onclick="addProduct({{this._id}});">
-  <hr/>
-    
+    <p>descripcion: {{this.description}}</p>
+    <p>precio: {{this.price}}</p>
+    <p>categoria: {{this.category}}</p>
+    <hr/>
   {{/each}}
 </div>
+<script src="/js/vista.products.js"></script>
