@@ -10,17 +10,22 @@ import mongoose from "mongoose";
 import {productsRouter} from "./routes/products.router.js";
 import { cartRouter} from "./routes/cart.router.js";
 import {productModel} from "./dao/models/product.model.js"
+import { loginCookies } from "./routes/loginCookies.js";
+
 
 const app = express()
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+
+
 
 app.use(express.static(path.join(__dirname, 'public')));
 
 // * MONGOOSE
 
 mongoose.set("strictQuery", false)
-mongoose.connect("mongodb+srv://s_vitale:svet5694@ecommercecluster.qhialqm.mongodb.net/", (error) => {
+mongoose.connect("mongodb://root:example@192.168.44.125:27017/ecommerce?authSource=admin", (error) => {
     if(error){
         console.log("Cannot connect to database", error);
     }
@@ -38,6 +43,7 @@ app.set("view engine" , "handlebars")
 // * VISTA products
 app.use("/vista/products", routerVistaProducts)
 app.use("/vista/carts", routerVistaCarts)
+app.use("/vista/login", loginCookies);
 
 // * HTML REAL TIPO VISTA
 app.use("/vista/realtimeproducts", routerVistaRealTimeProducts);
