@@ -1,0 +1,24 @@
+<div>
+  {{#each users}}
+  <p>{{this.id}}</p>
+  <p>{{this.firstName}}</p>
+  <p>{{this.email}}</p>
+  {{/each}}
+  <hr>
+  <hr>
+  <h3>Paginacion</h3>
+    <p>
+      pagingCounter: 
+      {{pagingCounter}}
+      totalPages: 
+      {{totalPages}}
+      page: 
+      {{page}}
+      {{#if hasPrevPage}}
+      <a href="http://localhost:8080/vista/products?page={{prevPage}}">prev page</a>
+      {{/if}}
+      {{#if hasNextPage}}
+      <a href="http://localhost:8080/vista/products?page={{nextPage}}">next page</a>
+      {{/if}}
+    </p>
+</div>
