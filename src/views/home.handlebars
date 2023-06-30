@@ -4,6 +4,19 @@
   {{else}}
   <h1>UNKOWN TITLE</h1>
   {{/if}}
+  {{#if email}}
+  <h3>Bienvenido {{userName}}</h3>
+  <p>su email es: {{email}}</p>
+  {{#if rol}}
+  <h3>Su rol es: admin</h3>
+  {{else}}
+  <h3>su rol es: usuario</h3>
+  {{/if}}
+  <a href="/logout">Logout</a>
+  {{else}}
+  <h4>No está logueado <a href="/login">Ingresar</a></h4>
+  {{/if}}
+  
   {{#each products}}
   <form action="/ejemplo/products/{{this._id}}" method="post">
     <p>nombre: {{this.title}}</p>

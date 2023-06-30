@@ -29,10 +29,13 @@ loginRouter.post("/login", async(req,res) => {
   }
   try{
     const userFinded = await userModel.find({email: email, password: password})
-    if(userFinded !== []){
-      console.log("se logueo correctamente");
+    if(userFinded && userFinded[0].password === password){
+      req.session.firstName = userFinded[0].firstName
+      req.session.email = userFinded[0].email
+      req.session.admin = userFinded[0].admin
+      return res.redirect("/vista/products")
     }else {
-      console.log("a");
+      return res.status(400).render("error-page", {msg: "El email o la contraseña estan incorrectas"})
     }
   }
   catch (e){
