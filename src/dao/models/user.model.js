@@ -23,6 +23,7 @@ const schema = new Schema({
 
   admin: {
     type: Boolean,
+    default: false
   },
   age: {
     type: Number,
