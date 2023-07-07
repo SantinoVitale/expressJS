@@ -39,7 +39,7 @@ loginRouter.post("/login", passport.authenticate("login", {failureRedirect: "/fa
     age: req.user.age,
     email: req.user.email
   }
-  res.send({status: "success", payload: req.user})
+  return res.redirect("/vista/products")
 
   /*const { email, password} = req.body
   if(!email || !password) {
@@ -63,4 +63,11 @@ loginRouter.post("/login", passport.authenticate("login", {failureRedirect: "/fa
 
 loginRouter.get("/failLogin", (req, res) => {
   res.send({error: "failed login"})
+})
+
+loginRouter.get("/github", passport.authenticate("github", {scope: ["user: email"]}), async (req, res) => {})
+
+loginRouter.get("/githubcallback", passport.authenticate("github", {failureRedirect: "/login"}), async(req, res )=> {
+  req.session.user = req.user;
+  return res.redirect("/vista/products")
 })
