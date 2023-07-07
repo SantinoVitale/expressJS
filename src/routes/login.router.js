@@ -1,16 +1,20 @@
 import express from 'express';
 import { userModel } from '../dao/models/user.model.js';
+import { createHash, isValidPassword } from '../utils.js';
+import passport from 'passport';
 
 export const loginRouter = express.Router();
 
-loginRouter.post("/register", async (req, res) => {
-  const { firstName, lastName, age, email, password, admin} = req.body;
+loginRouter.post("/register", passport.authenticate("register", {failureRedirect: "/failregister"}), async (req, res) => {
+  res.send({status: "success", message: "User registered"})
+
+  /*const { firstName, lastName, age, email, password, admin} = req.body;
   
   if (!firstName || !lastName || !age || !email || !password) {
     return res.status(400).render('error-page', { msg: 'faltan datos' });
   }
   try{
-    await userModel.create({ firstName, lastName, age, email, password, admin})
+    await userModel.create({ firstName, lastName, age, email, password: createHash(password), admin})
     req.session.firstName = firstName
     req.session.email = email
     req.session.admin = admin ? true : false
@@ -19,27 +23,44 @@ loginRouter.post("/register", async (req, res) => {
   catch (e){
     console.log(e);
     return res.status(400).render("error-page", {msg: "controla tu mail y intenta mas tarde"})
-  }
+  }*/
 })
 
-loginRouter.post("/login", async(req,res) => {
-  const { email, password} = req.body
+loginRouter.get("/failRegister", async (req, res) => {
+  console.log("Failed strategy");
+  res.send({error: "failed"})
+})
+
+loginRouter.post("/login", passport.authenticate("login", {failureRedirect: "/failLogin"}) ,async(req,res) => {
+  if (!req.user) return res.status(400).send({status:"error", error:"Invalid credentials"})
+  req.session.user = {
+    firstName: req.user.firstName,
+    lastName: req.user.lastName,
+    age: req.user.age,
+    email: req.user.email
+  }
+  res.send({status: "success", payload: req.user})
+
+  /*const { email, password} = req.body
   if(!email || !password) {
     return res.status(400).render("error-page", {msg: "faltan datos"})
   }
   try{
-    const userFinded = await userModel.find({email: email, password: password})
-    if(userFinded && userFinded[0].password === password){
-      req.session.firstName = userFinded[0].firstName
-      req.session.email = userFinded[0].email
-      req.session.admin = userFinded[0].admin
-      return res.redirect("/vista/products")
-    }else {
-      return res.status(400).render("error-page", {msg: "El email o la contraseña estan incorrectas"})
-    }
+    const user = await userModel.findOne({email: email}, {email:1, firstName:1, lastName:1, age:1, password:1})
+    if(!user) return res.status(400).send({status: "error", error: "User not found"})
+    if(!isValidPassword(user, password)) return res.status(403).send({status: "error", error: "Incorrect password"})
+    delete user.password
+    req.session.firstName= user.firstName;
+    req.session.email = email
+    req.session.admin = user.admin
+    return res.redirect("/vista/products")
   }
   catch (e){
     console.log(e);
     return res.status(400).render("error-page", {msg: "Hubo un error inesperado"})
-  }
+  }*/
+})
+
+loginRouter.get("/failLogin", (req, res) => {
+  res.send({error: "failed login"})
 })

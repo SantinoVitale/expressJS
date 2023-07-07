@@ -16,6 +16,8 @@ import MongoStore from "connect-mongo"
 import session from 'express-session';
 import { loginRouter } from "./routes/login.router.js";
 import { vistaUsers } from "./routes/vista.users.router.js";
+import passport from "passport";
+import initializatePassport from "./config/passport.config.js";
 
 const app = express()
 app.use(express.json());
@@ -28,6 +30,9 @@ app.use(session({
     resave: true,
     saveUninitialized: true,
 }))
+initializatePassport()
+app.use(passport.initialize())
+app.use(passport.session())
 
 
 
