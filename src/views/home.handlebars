@@ -7,11 +7,7 @@
   {{#if email}}
   <h3>Bienvenido {{userName}}</h3>
   <p>su email es: {{email}}</p>
-  {{#if rol}}
-  <h3>Su rol es: admin</h3>
-  {{else}}
-  <h3>su rol es: usuario</h3>
-  {{/if}}
+  <h3>Su rol es: {{rol}}</h3>
   <a href="/logout">Logout</a>
   {{else}}
   <h4>No está logueado <a href="/login">Ingresar</a></h4>

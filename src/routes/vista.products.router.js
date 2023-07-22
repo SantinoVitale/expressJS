@@ -14,5 +14,5 @@ routerVistaProducts.get("/", async(req, res) => {
       price: p.price
     }
   })
-  return res.status(200).render("home", {h1title: "products", products: products, pagingCounter: product.pagingCounter, totalPages: product.totalPages, page: product.page, hasPrevPage: product.hasPrevPage, hasNextPage: product.hasNextPage, prevPage: product.prevPage, nextPage: product.nextPage, rol: req.user.admin ? true : false, userName: req.user.firstName, email: req.user.email})
+  return res.status(200).render("home", {h1title: "products", products: products, pagingCounter: product.pagingCounter, totalPages: product.totalPages, page: product.page, hasPrevPage: product.hasPrevPage, hasNextPage: product.hasNextPage, prevPage: product.prevPage, nextPage: product.nextPage, rol: req.user.role, userName: req.user.firstName, email: req.user.email})
 })

@@ -1,7 +1,7 @@
-import { Schema, model } from 'mongoose';
+import mongoose from 'mongoose';
 import monsoosePaginate from 'mongoose-paginate-v2';
 
-const schema = new Schema({
+const schema = new mongoose.Schema({
   firstName: {
     type: String,
     max: 100,
@@ -20,13 +20,19 @@ const schema = new Schema({
     max: 100,
     unique: true,
   },
-  admin: {
-    type: Boolean,
-    default: false
+  role: {
+    type: String,
+    default: "user",
+    required: false
   },
   age: {
     type: Number,
+    required: false,
   },
+  cart:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "carts"
+  }
 });
 schema.plugin(monsoosePaginate);
-export const userModel = model('users', schema);
+export const userModel = mongoose.model('users', schema);
