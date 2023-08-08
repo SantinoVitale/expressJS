@@ -4,9 +4,8 @@ import { Server } from "socket.io";
 import { routerVistaCarts } from "./routes/vista.carts.router.js";
 import { routerVistaProducts } from "./routes/vista.products.router.js";
 import { routerVistaRealTimeProducts } from "./routes/realtime.products.router.js";
-import { __dirname } from "./utils.js";
+import { __dirname } from "./utils/dirname.js";
 import path from "path";
-import mongoose from "mongoose";
 import {productsRouter} from "./routes/products.router.js";
 import { cartRouter} from "./routes/cart.router.js";
 import {productModel} from "./dao/models/product.model.js"
@@ -18,14 +17,24 @@ import { loginRouter } from "./routes/login.router.js";
 import { vistaUsers } from "./routes/vista.users.router.js";
 import passport from "passport";
 import initializatePassport from "./config/passport.config.js";
+import { connectMongo } from "./utils/mongoose.js";
+import config from "./config/dotenv.config.js";
 
+
+// * CONFIGURACION EXPRESS
 const app = express()
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser())
+const port = config.port
+export const mongourl = config.mongourl
 
+// * CONEXIÓN A MONGO
+connectMongo();
+
+// * PERSISTENCIA DE SESSION CON MONGO
 app.use(session({
-    store: MongoStore.create({ mongoUrl: 'mongodb+srv://s_vitale:svet5694@ecommercecluster.qhialqm.mongodb.net/', ttl: 60 }),
+    store: MongoStore.create({ mongoUrl: 'mongodb+srv://s_vitale:svet5694@ecommercecluster.qhialqm.mongodb.net/', ttl: 86400 * 7}),
     secret: 'secret',
     resave: true,
     saveUninitialized: true,
@@ -35,27 +44,19 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 
-
-app.use(express.static(path.join(__dirname, 'public')));
-
-// * MONGOOSE
-
-mongoose.set("strictQuery", false)
-mongoose.connect("mongodb+srv://s_vitale:svet5694@ecommercecluster.qhialqm.mongodb.net/", (error) => {
-    if(error){
-        console.log("Cannot connect to database", error);
-    }
-    console.log("conectado pa");
-    
-})
-app.use("/api/products", productsRouter)
-app.use("/api/carts", cartRouter)
-app.use("/api/session", loginRouter)
+// * CONFIGURACION CARPETA PUBLIC
+app.use(express.static(path.join(__dirname + '../../public')));
 
 // * CONFIGURACION DEL MOTOR DE HANDLEBARS
 app.engine("handlebars", handlebars.engine())
-app.set("views", __dirname + "/views")
+app.set("views", __dirname + "../../views")
 app.set("view engine" , "handlebars") 
+
+
+// * ROUTER
+app.use("/api/products", productsRouter)
+app.use("/api/carts", cartRouter)
+app.use("/api/session", loginRouter)
 
 // * VISTA products
 app.use("/vista/products", routerVistaProducts)
@@ -73,8 +74,8 @@ app.get("*", (req, res) => {
         data: {}
     })
 })
-const httpServer = app.listen(8080, () => {
-    console.log("Server escuchando en el puerto 8080")
+const httpServer = app.listen(port, () => {
+    console.log("Server escuchando en el puerto ", port)
 })
 const socketServer = new Server(httpServer);
 
