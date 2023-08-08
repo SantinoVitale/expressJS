@@ -22,19 +22,20 @@ import config from "./config/dotenv.config.js";
 
 
 // * CONFIGURACION EXPRESS
-const app = express()
+const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser())
-const port = config.port
-export const mongourl = config.mongourl
+app.use(cookieParser());
+const port = config.port;
+export const mongourl = config.mongourl;
+export const sshurl = config.sshurl;
 
 // * CONEXIÓN A MONGO
 connectMongo();
 
 // * PERSISTENCIA DE SESSION CON MONGO
 app.use(session({
-    store: MongoStore.create({ mongoUrl: 'mongodb+srv://s_vitale:svet5694@ecommercecluster.qhialqm.mongodb.net/', ttl: 86400 * 7}),
+    store: MongoStore.create({ mongoUrl: 'mongodb://root:example@192.168.44.125:27017/ecommerce?authSource=admin', ttl: 86400 * 7}),
     secret: 'secret',
     resave: true,
     saveUninitialized: true,

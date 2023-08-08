@@ -22,7 +22,7 @@ const initializatePassport = () => {
           age,
           password: createHash(password)
         }
-        let result = await userModel.create({newUser})
+        let result = await userModel.create(newUser)
         return done(null, result)
       }catch(error){
         return done("Error al obtener el usuario " + error)

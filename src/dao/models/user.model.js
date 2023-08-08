@@ -1,7 +1,8 @@
 import mongoose from 'mongoose';
-import monsoosePaginate from 'mongoose-paginate-v2';
+import mongoosePaginate from 'mongoose-paginate-v2';
 
-const schema = new mongoose.Schema({
+const userCollection = "users"
+const userSchema = new mongoose.Schema({
   firstName: {
     type: String,
     max: 100,
@@ -16,7 +17,6 @@ const schema = new mongoose.Schema({
   },
   email: {
     type: String,
-    required: true,
     max: 100,
     unique: true,
   },
@@ -34,5 +34,5 @@ const schema = new mongoose.Schema({
     ref: "carts"
   }
 });
-schema.plugin(monsoosePaginate);
-export const userModel = mongoose.model('users', schema);
+userSchema.plugin(mongoosePaginate);
+export const userModel = mongoose.model(userCollection, userSchema);

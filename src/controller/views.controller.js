@@ -9,7 +9,7 @@ class ViewsController{
   }
 
   login(req, res){
-    return res.redirect("/login")
+    return res.render("login-form")
   }
 
   register(req, res){

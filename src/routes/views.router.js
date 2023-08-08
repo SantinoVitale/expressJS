@@ -8,8 +8,6 @@ export const viewsRouter = express.Router();
 
 viewsRouter.get("/logout", viewsController.logout)
 
-viewsRouter.get("", viewsController.login)
-
 viewsRouter.get("/login", viewsController.login)
 
 viewsRouter.get("/register", viewsController.register)

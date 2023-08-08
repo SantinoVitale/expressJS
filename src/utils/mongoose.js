@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
-import { mongourl } from "../app.js";
+import { mongourl, sshurl } from "../app.js";
 
 export async function connectMongo(){
   try{
     mongoose.set("strictQuery", false)
-    mongoose.connect(mongourl, (error) => {
+    mongoose.connect(sshurl, (error) => {
     if(error){
         console.log("Cannot connect to database", error);
     }
