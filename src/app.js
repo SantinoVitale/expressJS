@@ -35,7 +35,7 @@ connectMongo();
 
 // * PERSISTENCIA DE SESSION CON MONGO
 app.use(session({
-    store: MongoStore.create({ mongoUrl: 'mongodb://root:example@192.168.44.125:27017/ecommerce?authSource=admin', ttl: 86400 * 7}),
+    store: MongoStore.create({ mongoUrl: 'mongodb+srv://s_vitale:svet5694@ecommercecluster.qhialqm.mongodb.net/', ttl: 86400 * 7}),
     secret: 'secret',
     resave: true,
     saveUninitialized: true,

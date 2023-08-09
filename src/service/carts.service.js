@@ -1,26 +1,27 @@
-import { cartModel } from "../dao/models/cart.model.js";
+import Cart from "../dao/cart.mongo.js";
 
+const cart = new Cart();
 class CartsService{
   async post(products){
-    let result = await cartModel.create({products})
+    const result = await cart.createCart(products)
     return result
   }
 
   async getAll(){
-    const result = await cartModel.find()
-    const cart = {
+    const result = await cart.getAllCarts()
+    const newCart = {
       carts: result
     }
-    return cart
+    return newCart
   }
 
   async getOne(cid){
-    const cartsId = await cartModel.find({_id:cid}).populate("products.product")
+    const cartsId = await cart.getCartById(cid)
     return cartsId
   }
 
   async postProduct(cid, pid, pQuantity){
-    let sameQ = await cartModel.find({_id: cid})
+    let sameQ = await cart.getCartById(cid)
     const findRepeatedProduct = sameQ[0].products.find((e) => JSON.stringify(e.product) === JSON.stringify(pid))
     if(findRepeatedProduct){
       findRepeatedProduct.quantity += pQuantity.quantity
@@ -28,29 +29,29 @@ class CartsService{
     } else {
       sameQ[0].products.push({product: pid, quantity: pQuantity.quantity})
     }
-    const result = await cartModel.updateOne({_id: cid}, sameQ[0])
+    const result = await cart.postProduct(cid, sameQ[0]);
     return result
   }
 
   async deleteProduct(cid, pid){
-    let result = await cartModel.find({_id: cid})
-    const product = result[0].products.filter((e) => JSON.stringify(e.product) !== JSON.stringify(pid))
+    let result = await cart.getCartById(cid);
+    const product = result[0].products.filter((e) => JSON.stringify(e.product._id) !== JSON.stringify(pid))
     const update = result[0].products = product
-    const finalResponse = await cartModel.updateOne({_id: cid}, {products: product})
+    const finalResponse = await cart.deleteProduct(cid, product)
     return finalResponse
   }
 
   async updateCart(cid, product){
-    const result = await cartModel.updateOne({_id: cid}, {products: product})
+    const result = await cart.updateCart(cid, product)
     return result
   }
 
   async updateProduct(cid, pid, pQuantity){
-    let result = await cartModel.find({_id: cid})
-    const findProduct = result[0].products.find((e) => JSON.stringify(e.product) === JSON.stringify(pid))
+    let result = await cart.getCartById(cid)
+    const findProduct = result[0].products.find((e) => JSON.stringify(e.product._id) === JSON.stringify(pid))
     if(findProduct){
       findProduct.quantity = pQuantity.quantity
-      let update = await cartModel.updateOne({_id: cid}, result[0])
+      let update = await cart.updateProduct(cid, result[0])
       return update
     } else {
       return {status:"error",
@@ -61,12 +62,12 @@ class CartsService{
   }
 
   async emptyCart(cid){
-    const update = await cartModel.updateOne({_id: cid}, {products: []})
+    const update = await cart.emptyCart(cid)
     return update
   }
 
   async getAllVista(cid){
-    let carts = await cartModel.find({_id: cid}).populate("products.product")
+    let carts = await cart.getCartById(cid)
     const cart = carts[0].products.map((p) => {
       return {
         quantity: p.quantity,
