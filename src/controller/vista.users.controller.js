@@ -4,7 +4,6 @@ class VistaUsersController{
   async getAll(req, res){
     const { page, limit } = req.query
     const users = await usersService.getAll(page, limit)
-    console.log(users);
     return res.status(200).render("users", {
       users: users.usuarios,
       pagingCounter: users.pagination.pagingCounter,

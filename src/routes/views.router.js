@@ -1,5 +1,5 @@
 import express from "express";
-import { checkAdmin, checkUser } from "../middlewares/auth.js";
+import { isAdmin, isUser } from "../middlewares/auth.js";
 import { viewsController } from "../controller/views.controller.js";
 
 const app = express()
@@ -12,7 +12,9 @@ viewsRouter.get("/login", viewsController.login)
 
 viewsRouter.get("/register", viewsController.register)
 
-viewsRouter.get("/profile", checkUser, viewsController.profile)
+viewsRouter.get("/profile", isUser, viewsController.profile)
 
-viewsRouter.get("/admin-only", checkAdmin, viewsController.adminOnly)
+viewsRouter.get("/admin-only", isAdmin, viewsController.adminOnly)
+
+viewsRouter.get("/admin-products", isAdmin, viewsController.adminProducts)
 

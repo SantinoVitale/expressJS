@@ -9,9 +9,9 @@ class ProductsController{
             let sort = req.query.sort
             const products = await productsService.getAll(limit, page, query, sort)
             res.send({result: "success", payload: products.docs, totalPages: products.totalPages, prevPage: products.prevPage, nextPage: products.nextPage, page: products.page, hasPrevPage: products.hasPrevPage, hasNextPage: products.hasNextPage, prevLink: products.prevLink, nextLink: products.nextLink})
-          } catch(error){
+        } catch(error){
             console.log("Hubo un error", error);
-          }
+        }
     }
 
     async post(req, res){

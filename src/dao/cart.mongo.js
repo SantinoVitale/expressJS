@@ -8,13 +8,13 @@ export default class Cart{
     return carts;
   }
 
-  createCart = async (products) => {
-    const newCart = await cartModel.create({products});
+  createCart = async (products, user) => {
+    const newCart = await cartModel.create({products: products, users: user});
     return newCart;
   }
 
   getCartById = async (cid) => {
-    const cart = await cartModel.find({_id:cid}).populate("products.product");
+    const cart = await cartModel.find({_id:cid}).populate("products.product").populate("users");
     return cart
   }
 

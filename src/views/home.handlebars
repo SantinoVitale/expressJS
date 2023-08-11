@@ -5,23 +5,34 @@
   <h1>UNKOWN TITLE</h1>
   {{/if}}
   {{#if email}}
-  <h3>Bienvenido {{userName}}</h3>
-  <p>su email es: {{email}}</p>
-  <h3>Su rol es: {{rol}}</h3>
-  <a href="/logout">Logout</a>
+  <div class="user-container">
+    <h3>Bienvenido {{userName}}</h3>
+    <p>su email es: {{email}}</p>
+    <h3>Su rol es: {{rol}}</h3>
+    <h3>Su carrito asignado es: {{cart}}</h3>
+    <a href="/logout">Logout</a>
+  </div>
+  
   {{else}}
   <h4>No está logueado <a href="/login">Ingresar</a></h4>
   {{/if}}
   
-  {{#each products}}
-  <form action="/ejemplo/products/{{this._id}}" method="post">
-    <p>nombre: {{this.title}}</p>
-    <p>id: {{this._id}}</p>
-    <p>precio: ${{this.price}}</p>
-    <input type="button" value="Agregar producto al carrito" onclick="addProduct('{{{this._id}}}');">
+  <form action="/api/carts" method="post">
+    <input type="submit" value="CREAR CARRITO">
   </form>
-  <hr/>
+<div class="products-container">
+  {{#each products}}
+  <div class="product">
+    <form action="/ejemplo/products/{{this.price}}" method="post">
+      <p>nombre: {{this.title}}</p>
+      <p>id: {{this.price}}</p>
+      <p>precio: ${{this.price}}</p>
+      <input type="button" value="Agregar producto al carrito" onclick="addProduct('{{{this._id}}}');">
+    </form>
+  </div>
   {{/each}}
+</div>
+  
     <h3>Paginacion</h3>
     <p>
       pagingCounter: 

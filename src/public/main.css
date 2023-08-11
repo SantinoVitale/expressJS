@@ -1,1 +1,19 @@
 /* Prueba CSS */
+
+.user-container{
+  border: 2px solid cyan;
+  width: fit-content;
+  padding: 20px;
+  margin-bottom: 10px;
+}
+
+.products-container{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.product{
+  padding: 20px;
+  border: 2px solid rebeccapurple;
+  margin: 10px;
+}

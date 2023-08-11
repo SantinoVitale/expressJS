@@ -23,6 +23,10 @@ class ViewsController{
   adminOnly(req ,res){
     return res.send("ESTO ES SOLO PARA ADMINS")
   }
+
+  adminProducts(req, res){
+    return res.render("product-form")
+  }
 }
 
 export const viewsController = new ViewsController()

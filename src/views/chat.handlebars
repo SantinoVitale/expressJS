@@ -1,0 +1,13 @@
+<div>
+  <h1>Bienvenido al chat</h1>
+
+  <h3>Usuario :  <span id="span-nombre">{{user.first_name}}</span></h3>
+  <h3 className="chat-h3">Listado de msgs:</h3>
+  <div id="div-msgs" style="border: 1px solid violet;margin-bottom: 20px;">
+  </div>
+  <input id="input-msg" type="text" value="" placeholder="Ingrese algo.." />
+
+</div>
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/js/chat.js" type="module"></script>

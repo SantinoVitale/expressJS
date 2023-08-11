@@ -8,7 +8,6 @@ import { __dirname } from "./utils/dirname.js";
 import path from "path";
 import {productsRouter} from "./routes/products.router.js";
 import { cartRouter} from "./routes/cart.router.js";
-import {productModel} from "./dao/models/product.model.js"
 import { viewsRouter } from "./routes/views.router.js";
 import cookieParser from "cookie-parser";
 import MongoStore from "connect-mongo"
@@ -19,6 +18,8 @@ import passport from "passport";
 import initializatePassport from "./config/passport.config.js";
 import { connectMongo } from "./utils/mongoose.js";
 import config from "./config/dotenv.config.js";
+import { routerChat } from "./routes/chat.router.js";
+import { chatService } from "./service/chat.service.js";
 
 
 // * CONFIGURACION EXPRESS
@@ -63,6 +64,7 @@ app.use("/api/session", loginRouter)
 app.use("/vista/products", routerVistaProducts)
 app.use("/vista/carts", routerVistaCarts)
 app.use("/vista/users", vistaUsers)
+app.use("/vista/chat", routerChat)
 app.use("/", viewsRouter)
 
 // * HTML REAL TIPO VISTA
@@ -80,7 +82,7 @@ const httpServer = app.listen(port, () => {
 })
 const socketServer = new Server(httpServer);
 
-socketServer.on("connection", async (socket) => {
+/*socketServer.on("connection", async (socket) => {
     let products = await productModel.find()
     socketServer.emit("get_products", products);
     socket.on("product_front_to_back", async (addProduct) => {
@@ -102,5 +104,34 @@ socketServer.on("connection", async (socket) => {
         let products = await productModel.find()
         socketServer.emit("get_products", products);
     })
-})
+})*/
 
+// * CHAT SOCKET
+socketServer.on("connection", async (socket) => {
+    console.log("Socket connection established");
+    async function getMessagesMongo() {
+    try {
+        const messagges = await chatService.getAllMessages();
+        return messagges;
+    } catch (error) {
+        console.log(error);
+        throw "ERROR";
+    }
+    }
+
+    async function addMessageMongo(message) {
+    try {
+        await chatService.addMessage(message);
+    } catch (error) {
+        console.log(error);
+        throw "ERROR";
+    }
+    }
+    socket.on("msg_front_to_back", async (msg) => {
+        console.log(msg);
+        await addMessageMongo(msg);
+        const msgs = await getMessagesMongo();
+        console.log(msgs);
+        socketServer.emit("todos_los_msgs", msgs);
+    });
+})

@@ -1,10 +1,12 @@
-import { cartsService } from "../service/carts.service.js"
+import { cartsService } from "../service/cart.service.js"
+import { usersService } from "../service/users.service.js"
 
 
 class CartsController{
   async post(req, res){
     let {products} = req.body
-    const cartPost = await cartsService.post(products)
+    const cartPost = await cartsService.post(products, req.user)
+    const userCartPost = await usersService.userCartPost(req.user._id.toString(), cartPost)
     return res.status(201).json({
       status:"success",
       msg: "product added",

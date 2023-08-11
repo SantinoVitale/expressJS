@@ -1,6 +1,6 @@
 import express from "express";
-import { cartModel } from "../dao/models/cart.model.js";
-import { cartsController } from "../controller/carts.controller.js"
+import { cartsController } from "../controller/cart.controller.js";
+import { isUserOwner } from "../middlewares/auth.js";
 
 const app = express()
 export const cartRouter = express.Router()
@@ -11,7 +11,7 @@ cartRouter.get("/", cartsController.getAll)
 
 cartRouter.get("/:cid", cartsController.getOne)
 
-cartRouter.post("/:cid/products/:pid", cartsController.postProduct)
+cartRouter.post("/:cid/products/:pid", isUserOwner, cartsController.postProduct)
 
 cartRouter.delete(("/:cid/products/:pid"), cartsController.deleteProduct)
 

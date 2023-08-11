@@ -1,3 +1,5 @@
+import UsersDTO from "../dao/DTO/users.dto.js";
+
 class LoginController{
   register(req, res){
     return res.redirect("/profile")
@@ -30,10 +32,11 @@ class LoginController{
   }
 
   current(req, res){
+    const userDTO = new UsersDTO(req.user)
     return res.status(200).json({
       status: "success",
       msg: "datos de la sesion",
-      payload: req.session.user
+      payload: userDTO
     })
   }
 }

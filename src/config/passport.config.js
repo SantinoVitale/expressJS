@@ -39,6 +39,7 @@ const initializatePassport = () => {
         console.log("User dont exist");
         return done(null, false)
       }
+      if(user.role === "admin" && user.password === password) return done(null, user)
       if(!isValidPassword(user, password)) return done(null, false);
       return done(null, user)
     } catch(error) {

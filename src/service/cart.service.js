@@ -2,8 +2,8 @@ import Cart from "../dao/cart.mongo.js";
 
 const cart = new Cart();
 class CartsService{
-  async post(products){
-    const result = await cart.createCart(products)
+  async post(products, userOwner){
+    const result = await cart.createCart(products, userOwner)
     return result
   }
 
