@@ -72,7 +72,7 @@ class CartsService{
 
   async getAllVista(cid){
     let carts = await cart.getCartById(cid)
-    const cart = carts[0].products.map((p) => {
+    const cartVista = carts[0].products.map((p) => {
       return {
         quantity: p.quantity,
         title: p.product.title,
@@ -82,7 +82,7 @@ class CartsService{
   
       }
     })
-    return cart
+    return cartVista
   }
 
   async purchase(cid, requser){
