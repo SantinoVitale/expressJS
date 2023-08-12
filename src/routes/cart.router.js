@@ -20,3 +20,5 @@ cartRouter.put(("/:cid"), cartsController.updateCart)
 cartRouter.put(("/:cid/products/:pid"), cartsController.updateProduct)
 
 cartRouter.delete(("/:cid"), cartsController.emptyCart)
+
+cartRouter.get(("/:cid/purchase"), cartsController.purchase)

@@ -104,6 +104,20 @@ class CartsController{
       result: update
     })
   }
+
+  async purchase(req, res){
+    let {cid} = req.params
+    const cartInfo = await cartsService.purchase(cid, req.user)
+    if(!cartInfo) return res.status(400).json({
+      status: "error",
+      msg: "The products in the cart have no stock remain"
+    })
+    return res.status(200).json({
+      status:"success",
+      msg: "product updated",
+      data:{cartInfo}
+    })
+  }
 }
 
 export const cartsController = new CartsController()
