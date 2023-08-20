@@ -20,6 +20,7 @@ import { connectMongo } from "./utils/mongoose.js";
 import config from "./config/dotenv.config.js";
 import { routerChat } from "./routes/chat.router.js";
 import { chatService } from "./service/chat.service.js";
+import { mockingProdcutsRouter } from "./routes/mockinproducts.router.js";
 
 
 // * CONFIGURACION EXPRESS
@@ -59,6 +60,7 @@ app.set("view engine" , "handlebars")
 app.use("/api/products", productsRouter)
 app.use("/api/carts", cartRouter)
 app.use("/api/session", loginRouter)
+app.use("/mockingproducts", mockingProdcutsRouter)
 
 // * VISTA products
 app.use("/vista/products", routerVistaProducts)
