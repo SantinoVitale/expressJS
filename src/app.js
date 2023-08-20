@@ -21,6 +21,9 @@ import config from "./config/dotenv.config.js";
 import { routerChat } from "./routes/chat.router.js";
 import { chatService } from "./service/chat.service.js";
 import { mockingProdcutsRouter } from "./routes/mockinproducts.router.js";
+import errorHandler from "./middlewares/error.js"
+import customError from "./errors/custom-error.js";
+import EErros from "./errors/enum.js";
 
 
 // * CONFIGURACION EXPRESS
@@ -73,12 +76,15 @@ app.use("/", viewsRouter)
 app.use("/vista/realtimeproducts", routerVistaRealTimeProducts);
 
 app.get("*", (req, res) => {
-    return res.status(404).json({
-        status: "error",
-        message: "Page Not Found",
-        data: {}
+    customError.createError({
+        name: "Page not found",
+        cause: "Reaching a invalid route",
+        message: "Page does not exist",
+        code: EErros.ROUTING_ERROR
     })
 })
+
+app.use(errorHandler)
 const httpServer = app.listen(port, () => {
     console.log("Server escuchando en el puerto ", port)
 })

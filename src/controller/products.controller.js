@@ -1,3 +1,4 @@
+import EErros from "../errors/enum.js"
 import {productsService} from "../service/products.service.js"
 
 class ProductsController{
@@ -17,7 +18,12 @@ class ProductsController{
     async post(req, res){
         let {title, description, price, code, thumbail, stock, category} = req.body
         const result = await productsService.post(title, description, price, code, thumbail, stock, category)
-        if(!result) return res.status(400).json({status: "error", msg: "incomplete values", data: {}})
+        if(!result) return customError.createError({
+            name: "Incomplete values",
+            cause: "There are missing values to post the product",
+            message: "Pls provide a correct info to post product",
+            code: EErros.PRODUCT_MANAGER_ERROR
+        })
         return res.status(200).json({
             status:"success",
             msg: "product added",
@@ -29,13 +35,24 @@ class ProductsController{
         let {pid} = req.params
         let productToReplace = req.body
         const result = await productsService.post(pid, productToReplace)
-        if(!result) return res.status(400).json({status:"error", msg: "incomplete values", data:{} })
-        return 
+        if(!result) return customError.createError({
+            name: "Can´t update the product",
+            cause: "There are missing or incomplete values to update the product",
+            message: "Pls provide correct values to update the product",
+            code: EErros.PRODUCT_MANAGER_ERROR
+        })
+        return result
     }
 
     async delete(req, res){
         let {pid} = req.params
         const result = await productsService.delete(pid)
+        if(!result) return customError.createError({
+            name: "Can´t delete product",
+            cause: "Incorrect product id",
+            message: "Pls provide a correct product id",
+            code: EErros.PRODUCT_MANAGER_ERROR
+        })
         return res.status(200).json({
             status:"success",
             msg: "product deleted",

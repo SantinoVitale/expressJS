@@ -1,3 +1,5 @@
+import customError from "../errors/custom-error.js"
+import EErros from "../errors/enum.js"
 import { cartsService } from "../service/cart.service.js"
 import { usersService } from "../service/users.service.js"
 
@@ -28,10 +30,12 @@ class CartsController{
       data:{cartsId}
     })
     } else{
-    return res.status(400).json({status:"error",
-    msg: "Not found",
-    data:{}
-  })
+    return customError.createError({
+      name: "Cart not found",
+      cause: "The cart does not found in the database",
+      message: "Pls provide a correct cart id",
+      code: EErros.CART_MANAGER_ERROR
+    })
   }
   }
 
@@ -46,10 +50,12 @@ class CartsController{
             data:{result}
         })
     } else{
-        return res.status(400).json({status:"error",
-            msg: "can´t added the product to the cart",
-            data:{}
-        })
+      return customError.createError({
+        name: "Cant post a product in the cart",
+        cause: "The porduct cant be added to the cart",
+        message: "Pls provide a correct product id or a cart id",
+        code: EErros.CART_MANAGER_ERROR
+      })
     }
   }
   
@@ -63,10 +69,12 @@ class CartsController{
       data:{finalResponse}
     })
     } else{
-    return res.status(400).json({status:"error",
-        msg: "can´t delete the product",
-        data:{}
-    })
+      return customError.createError({
+        name: "Cant delete product",
+        cause: "The product does not found in the cart",
+        message: "Pls provide a correct product id",
+        code: EErros.CART_MANAGER_ERROR
+      })
     }
   }
 
@@ -80,10 +88,12 @@ class CartsController{
       data:{result}
     })
     } else{
-    return res.status(400).json({status:"error",
-        msg: "can´t update the product",
-        data:{}
-    })
+      return customError.createError({
+        name: "Cant update cart",
+        cause: "The cart does not found in the database or the info to update isn´t correct",
+        message: "Pls provide a correct cart id or product body",
+        code: EErros.CART_MANAGER_ERROR
+      })
     }
   }
 
@@ -108,9 +118,11 @@ class CartsController{
   async purchase(req, res){
     let {cid} = req.params
     const cartInfo = await cartsService.purchase(cid, req.user)
-    if(!cartInfo) return res.status(400).json({
-      status: "error",
-      msg: "The products in the cart have no stock remain"
+    if(!cartInfo) return customError.createError({
+      name: "No stock from the product",
+      cause: "Cant do the purchase because there is no stock left",
+      message: "Pls purchase a product with stock or wait to stock refill",
+      code: EErros.CART_MANAGER_ERROR
     })
     return res.status(200).json({
       status:"success",
