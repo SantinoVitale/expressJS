@@ -5,11 +5,6 @@ class LoginController{
     return res.redirect("/profile")
   }
 
-  failRegister(req, res){
-    console.log("Failed strategy");
-    return res.send({error: "failed"})
-  }
-
   login(req, res){
     req.session.user = {
       _id: req.user._id.toString(),
@@ -20,10 +15,6 @@ class LoginController{
     };
 
     return res.redirect("/vista/products");
-  }
-
-  failLogin(req, res){
-    return res.send({error: "failed login"})
   }
 
   githubCallback(req, res){

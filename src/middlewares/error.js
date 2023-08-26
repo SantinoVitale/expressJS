@@ -1,7 +1,7 @@
 import EErros from "../errors/enum.js"
 
-export default(error, req, res, nest) => {
-  console.log(error.cause);
+export default(error, req, res, next) => {
+  console.log(error);
 
   switch(error.code){
     case EErros.ROUTING_ERROR:
@@ -45,7 +45,7 @@ export default(error, req, res, nest) => {
             .send({status: error, error: error.name, cause: error.cause})
             break;
     default:
-      res.status(500).send({status: "error", error: "Unhandled Error"})
+      res.status(500).send({status: "error", error: "Unhandled Error", errorSpecified: error})
       break;
   }
 }

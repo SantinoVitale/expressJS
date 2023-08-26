@@ -16,13 +16,17 @@ export function isUser(req, res, next) {
 export function isAdmin(req, res, next){
   if(req.user.email && req.user.role === "admin"){
     return next();
-  }
-  return customError.createError({
+  } else{
+    req.logger.error("No es administrador")
+    return customError.createError({
     name: "Not admin",
     cause: "The user is not an admin",
     message: "Please, log in as ADMIN",
     code: EErros.USER_PERMISSION_ERROR
   })
+  }
+  
+  
 }
 
 export function isUserNotAdmin(req, res, next){

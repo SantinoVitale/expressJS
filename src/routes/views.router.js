@@ -10,7 +10,11 @@ viewsRouter.get("/logout", viewsController.logout)
 
 viewsRouter.get("/login", viewsController.login)
 
+viewsRouter.get("/failLogin", viewsController.failLogin)
+
 viewsRouter.get("/register", viewsController.register)
+
+viewsRouter.get("/failRegister", viewsController.failRegister)
 
 viewsRouter.get("/profile", isUser, viewsController.profile)
 

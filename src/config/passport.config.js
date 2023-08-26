@@ -3,6 +3,8 @@ import local from "passport-local"
 import { userModel } from "../dao/models/user.model.js";
 import { createHash, isValidPassword } from "../utils/bcrypt.js";
 import GitHubStrategy from "passport-github";
+import customError from "../errors/custom-error.js";
+import EErros from "../errors/enum.js";
 
 const localStrategy = local.Strategy;
 const initializatePassport = () => {
@@ -36,7 +38,6 @@ const initializatePassport = () => {
     try{
       const user = await userModel.findOne({email: username})
       if(!user){
-        console.log("User dont exist");
         return done(null, false)
       }
       if(user.role === "admin" && user.password === password) return done(null, user)
@@ -52,7 +53,7 @@ const initializatePassport = () => {
     callbackURL: "http://localhost:8080/api/session/githubcallback"
   }, async (accessToken, refreshToken, profile, done) => {
     try{
-      console.log(profile);
+      req.logger.debug(profile)
       let user = await userModel.findOne({email: profile._json.email})
       if(!user){
         let newUser = {

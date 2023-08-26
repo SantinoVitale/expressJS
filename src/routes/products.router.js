@@ -7,8 +7,8 @@ export const productsRouter = express.Router();
 
 productsRouter.get("/", productsController.get)
 
-productsRouter.post("/", isAdmin, productsController.post)
+productsRouter.post("/", productsController.post)
 
-productsRouter.put("/:pid", isAdmin, productsController.put)
+productsRouter.put("/:pid", productsController.put)
 
-productsRouter.delete("/:pid", isAdmin, productsController.delete)
+productsRouter.delete("/:pid", productsController.delete)

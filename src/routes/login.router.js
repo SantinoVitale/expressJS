@@ -4,13 +4,9 @@ import { loginController } from "../controller/login.controller.js"
 
 export const loginRouter = express.Router();
 
-loginRouter.post("/register", passport.authenticate("register", {failureRedirect: "/failregister"}), loginController.register)
-
-loginRouter.get("/failRegister", loginController.failRegister)
+loginRouter.post("/register", passport.authenticate("register", {failureRedirect: "/failRegister"}), loginController.register)
 
 loginRouter.post("/login", passport.authenticate("login", {failureRedirect: "/failLogin"}), loginController.login)
-
-loginRouter.get("/failLogin", loginController.failLogin)
 
 loginRouter.get("/github", passport.authenticate("github", {scope: ["user: email"]}))
 

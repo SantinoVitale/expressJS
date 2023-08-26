@@ -6,9 +6,11 @@ import { usersService } from "../service/users.service.js"
 
 class CartsController{
   async post(req, res){
+    req.logger.http(`${req.method} at ${req.url} - ${new Date().toLocaleDateString()}`);
+
     let {products} = req.body
-    const cartPost = await cartsService.post(products, req.user)
-    const userCartPost = await usersService.userCartPost(req.user._id.toString(), cartPost)
+    const cartPost = await cartsService.post(products, req.user);
+    const userCartPost = await usersService.userCartPost(req.user._id.toString(), cartPost);
     return res.status(201).json({
       status:"success",
       msg: "product added",
@@ -17,29 +19,37 @@ class CartsController{
   }
 
   async getAll(req, res){
+    req.logger.http(`${req.method} at ${req.url} - ${new Date().toLocaleDateString()}`);
+
     const cartGetAll = await cartsService.getAll()
     return res.send({result: "success", payload: cartGetAll})
   }
 
   async getOne(req, res){
+    req.logger.http(`${req.method} at ${req.url} - ${new Date().toLocaleDateString()}`);
+
     let {cid} = req.params
-    const cartsId = await cartsService.getOne(cid)
-    if(cartsId){
+    const cartsId = await cartsService.getOne(cid);
+    if(cartsId == []){
     return res.status(200).json({status:"success",
       msg: "product finded",
       data:{cartsId}
     })
     } else{
+    req.logger.error('No se encontró ningun carrito');
     return customError.createError({
       name: "Cart not found",
       cause: "The cart does not found in the database",
       message: "Pls provide a correct cart id",
       code: EErros.CART_MANAGER_ERROR
     })
+    
   }
   }
 
   async postProduct(req, res){
+    req.logger.http(`${req.method} at ${req.url} - ${new Date().toLocaleDateString()}`);
+
     let {cid} = req.params
     let {pid} = req.params
     let pQuantity = req.body
@@ -50,6 +60,7 @@ class CartsController{
             data:{result}
         })
     } else{
+      req.logger.error(`No se pudo actualizar los productos del carrito con el id: ${cid}`);
       return customError.createError({
         name: "Cant post a product in the cart",
         cause: "The porduct cant be added to the cart",
@@ -60,6 +71,8 @@ class CartsController{
   }
   
   async deleteProduct(req, res){
+    req.logger.http(`${req.method} at ${req.url} - ${new Date().toLocaleDateString()}`);
+
     let {cid} = req.params
     let {pid} = req.params
     const finalResponse = await cartsService.deleteProduct(cid, pid)
@@ -69,6 +82,7 @@ class CartsController{
       data:{finalResponse}
     })
     } else{
+      req.logger.error(`No se pudo borrar los productos del carrito con el id: ${cid}`);
       return customError.createError({
         name: "Cant delete product",
         cause: "The product does not found in the cart",
@@ -79,6 +93,8 @@ class CartsController{
   }
 
   async updateCart(req, res){
+    req.logger.http(`${req.method} at ${req.url} - ${new Date().toLocaleDateString()}`);
+
     let {cid} = req.params
     let {product, quantity} = req.body
     const result = await cartsService.updateCart(cid, req.body)
@@ -88,6 +104,7 @@ class CartsController{
       data:{result}
     })
     } else{
+      req.logger.error(`No se pudo actualizar el carrito con el id: ${cid}`);
       return customError.createError({
         name: "Cant update cart",
         cause: "The cart does not found in the database or the info to update isn´t correct",
@@ -98,6 +115,8 @@ class CartsController{
   }
 
   async updateProduct(req, res){
+    req.logger.http(`${req.method} at ${req.url} - ${new Date().toLocaleDateString()}`);
+
     let {cid} = req.params
     let {pid} = req.params
     let pQuantity = req.body
@@ -108,6 +127,8 @@ class CartsController{
   }
 
   async emptyCart(req, res){
+    req.logger.http(`${req.method} at ${req.url} - ${new Date().toLocaleDateString()}`);
+
     let {cid} = req.params
     const update = await cartsService.deleteCart(cid)
     return res.json({
@@ -116,6 +137,8 @@ class CartsController{
   }
 
   async purchase(req, res){
+    req.logger.http(`${req.method} at ${req.url} - ${new Date().toLocaleDateString()}`);
+
     let {cid} = req.params
     const cartInfo = await cartsService.purchase(cid, req.user)
     if(!cartInfo) return customError.createError({

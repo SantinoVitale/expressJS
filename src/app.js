@@ -24,6 +24,8 @@ import { mockingProdcutsRouter } from "./routes/mockinproducts.router.js";
 import errorHandler from "./middlewares/error.js"
 import customError from "./errors/custom-error.js";
 import EErros from "./errors/enum.js";
+import { addLogger } from "./utils/logger.js";
+import { loggerTestRouter } from "./routes/loggerTestRouter.js";
 
 
 // * CONFIGURACION EXPRESS
@@ -31,6 +33,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(addLogger)
 const port = config.port;
 export const mongourl = config.mongourl;
 export const sshurl = config.sshurl;
@@ -64,6 +67,7 @@ app.use("/api/products", productsRouter)
 app.use("/api/carts", cartRouter)
 app.use("/api/session", loginRouter)
 app.use("/mockingproducts", mockingProdcutsRouter)
+app.use("/loggerTest", loggerTestRouter)
 
 // * VISTA products
 app.use("/vista/products", routerVistaProducts)
@@ -75,14 +79,14 @@ app.use("/", viewsRouter)
 // * HTML REAL TIPO VISTA
 app.use("/vista/realtimeproducts", routerVistaRealTimeProducts);
 
-app.get("*", (req, res) => {
+/*app.get("*", (req, res) => {
     customError.createError({
         name: "Page not found",
         cause: "Reaching a invalid route",
         message: "Page does not exist",
         code: EErros.ROUTING_ERROR
     })
-})
+})*/
 
 app.use(errorHandler)
 const httpServer = app.listen(port, () => {

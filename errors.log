@@ -1,0 +1,25 @@
+
+warn: ADVERTENCIA!!
+error: ERROR!!
+warn: ADVERTENCIA!!
+error: ERROR!!
+error: Reaching a invalid route
+warn: ADVERTENCIA!!
+error: ERROR!!
+warn: Reaching a invalid route
+warn: ADVERTENCIA!!
+error: Falló el register! Revise si puso bien el usuario o contraseña
+error: Falló el register! Revise si puso bien el usuario o contraseña
+error: Falló el register! Revise si puso bien el usuario o contraseña
+error: Falló el register! Revise si puso bien el usuario o contraseña
+error: Falló el LOGIN! Revise si puso bien el usuario o contraseña
+error: Falló el LOGIN! Revise si puso bien el usuario o contraseña
+warn: NO SE ENCONTRÓ NINGUN CARRITO
+error: undefined
+error: undefined
+error: undefined
+error: No se pudo agregar el producto, revisar porfavor los datos
+error: No se pudo agregar el producto, revisar porfavor los datos
+error: No es administrador
+error: No se pudo agregar el producto, revisar porfavor los datos
+error: No se pudo actualizar el producto con el ID: 64824d6250b8f8c95f4ba9f3, revisar porfavor los datos
