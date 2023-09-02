@@ -11,6 +11,7 @@ const productSchema = new mongoose.Schema({
   thumbail: Array, 
   stock: Number,
   category: String,
+  owner: {type: String, required: true, default:"admin"}
 })
 
 productSchema.plugin(mongoosePaginate)

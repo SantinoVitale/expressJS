@@ -39,11 +39,6 @@ class ViewsController{
     req.logger.http(`${req.method} at ${req.url} - ${new Date().toLocaleDateString()}`);
     return res.send("ESTO ES SOLO PARA ADMINS")
   }
-
-  adminProducts(req, res){
-    req.logger.http(`${req.method} at ${req.url} - ${new Date().toLocaleDateString()}`);
-    return res.render("product-form");
-  }
 }
 
 export const viewsController = new ViewsController()

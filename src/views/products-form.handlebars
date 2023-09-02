@@ -1,0 +1,24 @@
+<div>
+  <h1>Formulario de productos</h1>
+  <h3>Subir un producto</h3>
+  <form action="/api/products" method="post">
+    <label for="title">Nombre del producto</label>
+    <input type="text" name="title" placeholder="ingrese titulo">
+    <label for="description">Descripción</label>
+    <input type="text" name="description" placeholder="Ingrese descripcion">
+    <label for="price">Precio</label>
+    <input type="number" name="price" value="" placeholder="Ingrese precio">
+    <label for="code">Código</label>
+    <input type="text" name="code" value="" placeholder="Ingrese codigo">
+    <label for="stock">Stock</label>
+    <input type="number" name="stock" value="" placeholder="Ingrese stock">
+    <label for="category">Categoría</label>
+    <input type="text" name="category" value="" placeholder="Ingrese categoria">
+    <input type="submit" value="Subir Producto">
+  </form>
+
+  <div>
+    <h4>Logueado como: {{role}}</h4>
+    <a href="/vista/products">Volver al home</a>
+  </div>
+</div>

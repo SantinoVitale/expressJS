@@ -26,7 +26,7 @@ import customError from "./errors/custom-error.js";
 import EErros from "./errors/enum.js";
 import { addLogger } from "./utils/logger.js";
 import { loggerTestRouter } from "./routes/loggerTestRouter.js";
-
+import { recoverRouter } from "./routes/recover-pass.router.js";
 
 // * CONFIGURACION EXPRESS
 const app = express();
@@ -37,6 +37,7 @@ app.use(addLogger)
 const port = config.port;
 export const mongourl = config.mongourl;
 export const sshurl = config.sshurl;
+export const apiUrl = config.apiUrl
 
 // * CONEXIÓN A MONGO
 connectMongo();
@@ -75,6 +76,7 @@ app.use("/vista/carts", routerVistaCarts)
 app.use("/vista/users", vistaUsers)
 app.use("/vista/chat", routerChat)
 app.use("/", viewsRouter)
+app.use("/recover-pass", recoverRouter)
 
 // * HTML REAL TIPO VISTA
 app.use("/vista/realtimeproducts", routerVistaRealTimeProducts);

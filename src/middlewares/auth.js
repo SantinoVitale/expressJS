@@ -14,7 +14,7 @@ export function isUser(req, res, next) {
   })
 }
 export function isAdmin(req, res, next){
-  if(req.user.email && req.user.role === "admin"){
+  if(req.user.email && req.user.role === "admin" || req.user.role === "premium"){
     return next();
   } else{
     req.logger.error("No es administrador")

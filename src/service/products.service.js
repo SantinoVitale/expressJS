@@ -15,13 +15,12 @@ class ProductsService{
       return products
     }
 
-    async post(title, description, price, code, thumbail, stock, category){
+    async post(title, description, price, code, thumbail, stock, category, ownerRole, ownerEmail){
       if(!title||!description||!price||!code||!stock||!category){
         return false
     }else {
-
-      let result = await product.postProduct(title, description, price, code, thumbail, stock, category)
-      return result
+        let result = await product.postProduct(title, description, price, code, thumbail, stock, category, ownerRole, ownerEmail)
+        return result
     }
   }
 

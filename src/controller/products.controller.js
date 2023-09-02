@@ -22,7 +22,7 @@ class ProductsController{
         req.logger.http(`${req.method} at ${req.url} - ${new Date().toLocaleDateString()}`);
 
         let {title, description, price, code, thumbail, stock, category} = req.body
-        const result = await productsService.post(title, description, price, code, thumbail, stock, category)
+        const result = await productsService.post(title, description, price, code, thumbail, stock, category, req.user.role, req.user.email)
         if(!result) {
             req.logger.error(`No se pudo agregar el producto, revisar porfavor los datos`);
             return customError.createError({
@@ -32,11 +32,7 @@ class ProductsController{
             code: EErros.PRODUCT_MANAGER_ERROR
         })
         }
-        return res.status(200).json({
-            status:"success",
-            msg: "product added",
-            data:{result}
-        })
+        return res.render("success", {message: "Producto agregado correctamente!"})
     }
 
     async put(req, res){
@@ -54,7 +50,7 @@ class ProductsController{
             code: EErros.PRODUCT_MANAGER_ERROR
         })
         } 
-        return result
+        return res.render("success", {message: "Producto actualizado correctamente!"})
     }
 
     async delete(req, res){
@@ -71,11 +67,7 @@ class ProductsController{
             code: EErros.PRODUCT_MANAGER_ERROR
         })
         } 
-        return res.status(200).json({
-            status:"success",
-            msg: "product deleted",
-            data:{result}
-        })
+        return res.render("success", {message: "Producto eliminado correctamente!"})
     }
 }
 

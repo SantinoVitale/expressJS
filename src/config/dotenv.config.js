@@ -15,5 +15,8 @@ export default{
   mongourl: process.env.MONGO_URL,
   adminname: process.env.ADMIN_NAME,
   adminpass: process.env.ADMIN_PASS,
-  sshurl: process.env.SSH_URL
+  sshurl: process.env.SSH_URL,
+  apiUrl: process.env.API_URL,
+  googleUser: process.env.GOOGLE_MAIL,
+  googlePass: process.env.GOOGLE_PASS
 }

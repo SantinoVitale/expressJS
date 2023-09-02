@@ -20,5 +20,10 @@ viewsRouter.get("/profile", isUser, viewsController.profile)
 
 viewsRouter.get("/admin-only", isAdmin, viewsController.adminOnly)
 
-viewsRouter.get("/admin-products", isAdmin, viewsController.adminProducts)
+viewsRouter.get("/products-manager", isAdmin, (req, res) => {
+  res.render("products-form", {role: req.user.role})
+})
 
+viewsRouter.get("/", (req, res) => {
+  res.redirect("/vista/products")
+})
