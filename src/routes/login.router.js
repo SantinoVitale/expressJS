@@ -13,3 +13,5 @@ loginRouter.get("/github", passport.authenticate("github", {scope: ["user: email
 loginRouter.get("/githubcallback", passport.authenticate("github", {failureRedirect: "/login"}), loginController.githubCallback)
 
 loginRouter.get("/current", loginController.current)
+
+loginRouter.get("/premium/:uid", loginController.setPremium)

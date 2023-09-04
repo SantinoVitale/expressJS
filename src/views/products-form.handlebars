@@ -17,6 +17,12 @@
     <input type="submit" value="Subir Producto">
   </form>
 
+  <h3>Borrar un producto</h3>
+  <form action="/api/products/delete" method="post">
+    <label for="pid">Id del producto</label>
+    <input type="text" name="pid" placeholder="ingrese id">
+    <input type="submit" value="Borrar Producto">
+  </form>
   <div>
     <h4>Logueado como: {{role}}</h4>
     <a href="/vista/products">Volver al home</a>

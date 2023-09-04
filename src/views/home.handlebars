@@ -9,8 +9,8 @@
     <h3>Bienvenido {{userName}}</h3>
     <p>su email es: {{email}}</p>
     <h3>Su rol es: {{rol}}</h3>
-    <a href="/products-manager">Manager de productos</a>
     <h3>Su carrito asignado es: {{cart}}</h3>
+    <a href="/profile">Ver mi perfil</a>
     <a href="/logout">Logout</a>
   </div>
   
@@ -24,11 +24,12 @@
 <div class="products-container">
   {{#each products}}
   <div class="product">
-    <form action="/ejemplo/products/{{this.price}}" method="post">
+    <form action="/api/carts/{{../cart}}/products/{{this._id}}" method="post">
       <p>nombre: {{this.title}}</p>
       <p>id: {{this.price}}</p>
       <p>precio: ${{this.price}}</p>
-      <input type="button" value="Agregar producto al carrito" onclick="addProduct('{{{this._id}}}');">
+      <input type="number" name="quantity" placeholder="Ingresar la cantidad">
+      <input type="submit" value="Agregar producto al carrito">
     </form>
   </div>
   {{/each}}

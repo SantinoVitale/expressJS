@@ -1,4 +1,6 @@
 import UsersDTO from "../dao/DTO/users.dto.js";
+import { userModel } from "../dao/models/user.model.js";
+import customError from "../errors/custom-error.js";
 
 class LoginController{
   register(req, res){
@@ -29,6 +31,26 @@ class LoginController{
       msg: "datos de la sesion",
       payload: userDTO
     })
+  }
+
+  async setPremium(req, res){
+    const {uid} = req.params
+    const result = await userModel.findOne({_id: uid})
+    if(result.role === "premium"){
+      const setUser = await userModel.updateOne({_id: uid}, {role: "user"})
+      return res.render("success-products", {message: "Usuario cambiado a user"})
+    } else if(result.role === "user"){
+      const setPremium = await userModel.updateOne({_id: uid}, {role: "premium"})
+      return res.render("success-products", {message: "Usuario cambiado a premium"})
+    } else {
+      req.logger.error("No se puede cambiar el rol al admin")
+      return customError.createError({
+        name: "User is admin",
+        cause: "Cant change admin role",
+        message: "Can´t change de admin role",
+        code: EErros.USER_PERMISSION_ERROR
+      })
+    }
   }
 }
 

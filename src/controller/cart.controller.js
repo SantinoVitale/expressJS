@@ -55,10 +55,7 @@ class CartsController{
     let pQuantity = req.body
     const result = await cartsService.postProduct(cid, pid, pQuantity)
     if(result){
-        return res.status(200).json({status:"success",
-            msg: "product added to the cart",
-            data:{result}
-        })
+        return res.render("success-products", {message: "Producto agregado correctamente!"})
     } else{
       req.logger.error(`No se pudo actualizar los productos del carrito con el id: ${cid}`);
       return customError.createError({

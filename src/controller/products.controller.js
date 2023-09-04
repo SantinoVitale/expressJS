@@ -11,7 +11,7 @@ class ProductsController{
             let page = +(req.query.page)
             let query = req.query.query
             let sort = req.query.sort
-            const products = await productsService.getAll(limit, page, query, sort)
+            const products = await productsService.get(limit, page, query, sort)
             res.send({result: "success", payload: products.docs, totalPages: products.totalPages, prevPage: products.prevPage, nextPage: products.nextPage, page: products.page, hasPrevPage: products.hasPrevPage, hasNextPage: products.hasNextPage, prevLink: products.prevLink, nextLink: products.nextLink})
         } catch(error){
             req.logger.error(`ERROR: ${error}`);
@@ -56,7 +56,8 @@ class ProductsController{
     async delete(req, res){
         req.logger.http(`${req.method} at ${req.url} - ${new Date().toLocaleDateString()}`);
 
-        let {pid} = req.params
+        let {pid} = req.body
+        console.log(req.body);
         const result = await productsService.delete(pid)
         if(!result){
             req.logger.error(`No se pudo borrar el producto con el ID: ${pid}, revisar porfavor los datos`);
@@ -67,7 +68,7 @@ class ProductsController{
             code: EErros.PRODUCT_MANAGER_ERROR
         })
         } 
-        return res.render("success", {message: "Producto eliminado correctamente!"})
+        return res.render("success-products", {message: "Producto eliminado correctamente!"})
     }
 }
 

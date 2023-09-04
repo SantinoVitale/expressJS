@@ -32,7 +32,8 @@ class ViewsController{
 
   profile(req, res){
     req.logger.http(`${req.method} at ${req.url} - ${new Date().toLocaleDateString()}`);
-    return res.render("profile", {user: req.session.firstName});
+    console.log(req.user);
+    return res.render("profile", {user: req.user.firstName, role: req.user.role, email: req.user.email, id: req.user._id.toString()});
   }
 
   adminOnly(req ,res){
