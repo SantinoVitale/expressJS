@@ -1,0 +1,251 @@
+paths:
+  /api/carts:
+    get:
+      summary: Obtiene todos los carritos
+      tags: 
+        - Carts
+      responses:
+        "200":
+          description: Los carritos fueron obtenidos satisfactoriamente de la base de datos
+          content:
+            aplication/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Carts"
+        "500":
+          description: Error interno del servidor, usualmente generado por una query defectuosa o un fallo de conexion con la base de datos
+    post:
+      summary: Crea un carrito y se asigna a un usuario
+      tags: 
+        - Carts
+      requestBody:
+        required: true
+        content:
+          aplication/json:
+            schema:
+              $ref: "#components/requestBodies/updateCart"
+      responses:
+        "200":
+          description: El carrito fue creado y subido satisfactoriamente a la base de datos
+          content:
+            aplication/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Carts"
+        "400":
+          description: Hubo un error a la hora de tomar los datos, generalmente porque falto algun tipo de dato
+        "500":
+          description: Error interno del servidor, usualmente generado por una query defectuosa o un fallo de conexion con la base de datos
+  /api/carts/{cid}:
+    put:
+      summary: Modifica un carrito
+      tags: 
+        - Carts
+      parameters:
+      - name: cid
+        in: path
+        required: true
+        description: id del carrito a modificar
+        schema:
+          $type: String
+      requestBody:
+        required: true
+        content:
+          aplication/json:
+            schema:
+              $ref: "#components/requestBodies/updateCart"
+      responses:
+        "200":
+          description: El carrito fue encontrado y modificado satisfactoriamente de la base de datos
+        "400":
+          description: Hubo un error a la hora de tomar los datos o al encontrar el producto, generalmente porque falto algun tipo de dato o porque no existe en la base de datos
+        "500":
+          description: Error interno del servidor, usualmente generado por una query defectuosa o un fallo de conexion con la base de datos
+    get:
+      summary: Trae un carrito
+      tags: 
+        - Carts
+      parameters:
+      - name: cid
+        in: path
+        required: true
+        description: id del carrito a traer
+        schema:
+          $type: String
+      responses:
+        "200":
+          description: El carrito fue obtenido satisfactoriamente de la base de datos
+          content:
+            aplication/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Carts"
+        "500":
+          description: Error interno del servidor, usualmente generado por una query defectuosa o un fallo de conexion con la base de datos
+  /api/carts/{cid}/products/{pid}:
+    post:
+      summary: Agrega un producto al carrito
+      tags:
+      - Carts
+      parameters:
+      - name: cid
+        in: path
+        required: true
+        description: id del carrito a traer
+        schema:
+          $type: String
+      - name: pid
+        in: path
+        required: true
+        description: id del producto a agregar
+        schema:
+          $type: String
+      responses:
+        "200":
+          description: El carrito fue encontrado y se le agregó un producto de forma satisfactoria a la base de datos
+        "400":
+          description: Hubo un error a la hora de tomar los datos o al encontrar el producto/carrito, generalmente porque falto algun tipo de dato o porque no existe en la base de datos
+        "500":
+          description: Error interno del servidor, usualmente generado por una query defectuosa o un fallo de conexion con la base de datos
+    delete:
+      summary: Borra un producto al carrito
+      tags:
+      - Carts
+      parameters:
+      - name: cid
+        in: path
+        required: true
+        description: id del carrito a traer
+        schema:
+          $type: String
+      - name: pid
+        in: path
+        required: true
+        description: id del producto a borrar
+        schema:
+          $type: String
+      responses:
+        "200":
+          description: El carrito fue encontrado y se le borró un producto de forma satisfactoria a la base de datos
+        "400":
+          description: Hubo un error a la hora de tomar los datos o al encontrar el producto/carrito, generalmente porque falto algun tipo de dato o porque no existe en la base de datos
+        "500":
+          description: Error interno del servidor, usualmente generado por una query defectuosa o un fallo de conexion con la base de datos
+    put:
+      summary: Modifica la cantidad de un producto en el carrito
+      tags:
+      - Carts
+      parameters:
+      - name: cid
+        in: path
+        required: true
+        description: id del carrito a traer
+        schema:
+          $type: String
+      - name: pid
+        in: path
+        required: true
+        description: id del producto a modificar
+        schema:
+          $type: String
+      responses:
+        "200":
+          description: El carrito fue encontrado y se le modificó la cantidad de un producto de forma satisfactoria a la base de datos
+        "400":
+          description: Hubo un error a la hora de tomar los datos o al encontrar el producto/carrito, generalmente porque falto algun tipo de dato o porque no existe en la base de datos
+        "500":
+          description: Error interno del servidor, usualmente generado por una query defectuosa o un fallo de conexion con la base de datos
+  /{cid}/purchase:
+    get:
+      summary: Suma todos los productos y genera un ticket para la compra
+      tags:
+      - Carts
+      parameters:
+      - name: cid
+        in: path
+        required: true
+        description: id del carrito a traer
+        schema:
+          $type: String
+      responses:
+        "200":
+          description: El carrito fue encontrado, sumado el precio de los productos y generado el ticket de forma satisfactoria a la base de datos
+        "400":
+          description: Hubo un error a la hora de tomar los datos o al encontrar el producto/carrito, generalmente porque falto algun tipo de dato o porque no existe en la base de datos
+        "500":
+          description: Error interno del servidor, usualmente generado por una query defectuosa o un fallo de conexion con la base de datos
+  /vista/carts/{cid}:
+    get:
+      summary: Obtiene todos los carritos para mostrarlos en el handlebars
+      tags: 
+        - Carts
+      responses:
+        "200":
+          description: Los carritos fueron obtenidos satisfactoriamente de la base de datos y mostrados en el handlebars
+          content:
+            aplication/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Carts"
+        "500":
+          description: Error interno del servidor, usualmente generado por una query defectuosa o un fallo de conexion con la base de datos
+
+components:
+  schemas:
+    Carts:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Id autogenerado de mongo
+        products:
+          type: array
+          description: Array con los productos dentro del carrito el cual estan referenciados por el id
+        users:
+          type: ObjectId
+          description: Id del usuario el cual es dueño del carrito
+      example:
+        _id: ObjectId("64d5793105635e3eaf505a15")
+        products: [
+          {
+            _id: ObjectId("64824d6250b8f8c95f4ba9f3"),
+            quantity: 1
+          },
+          {
+            _id: ObjectId("64824d7050b8f8c95f4ba9f5"),
+            quantity: 3
+          }
+        ]
+        users: {
+          _id: ObjectId("64d5498662b3882f1ee55da0")
+        }
+  requestBodies:
+    updateCart:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Id autogenerado de mongo
+        products:
+          type: array
+          description: Array con los productos dentro del carrito el cual estan referenciados por el id
+        users:
+          type: ObjectId
+          description: Id del usuario el cual es dueño del carrito
+      example:
+        _id: ObjectId("64d5793105635e3eaf505a15")
+        products: [
+          {
+            _id: ObjectId("64824d6250b8f8c95f4ba9f3")
+          },
+          {
+            _id: ObjectId("64824d7050b8f8c95f4ba9f5")
+          }
+        ]
+        users: {
+          _id: ObjectId("64d5498662b3882f1ee55da0")
+        }

@@ -22,11 +22,11 @@ import { routerChat } from "./routes/chat.router.js";
 import { chatService } from "./service/chat.service.js";
 import { mockingProdcutsRouter } from "./routes/mockinproducts.router.js";
 import errorHandler from "./middlewares/error.js"
-import customError from "./errors/custom-error.js";
-import EErros from "./errors/enum.js";
 import { addLogger } from "./utils/logger.js";
 import { loggerTestRouter } from "./routes/loggerTestRouter.js";
 import { recoverRouter } from "./routes/recover-pass.router.js";
+import swaggerJsdoc from "swagger-jsdoc";
+import swaggerUiExpress from "swagger-ui-express";
 
 // * CONFIGURACION EXPRESS
 const app = express();
@@ -39,6 +39,20 @@ export const mongourl = config.mongourl;
 export const sshurl = config.sshurl;
 export const apiUrl = config.apiUrl
 
+const swaggerOptions = {
+    definition:{
+        openapi: "3.0.1",
+        info:{
+            title: "Documentacion del poder y saber",
+            description: "API pensada para clase de swagger"
+        }
+    },
+    apis: [__dirname + "/docs/**/*.yaml"]
+}
+
+const specs = swaggerJsdoc(swaggerOptions);
+app.use("/apidocs", swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
+
 // * CONEXIÓN A MONGO
 connectMongo();
 
@@ -48,10 +62,10 @@ app.use(session({
     secret: 'secret',
     resave: true,
     saveUninitialized: true,
-}))
-initializatePassport()
-app.use(passport.initialize())
-app.use(passport.session())
+}));
+initializatePassport();
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 // * CONFIGURACION CARPETA PUBLIC
@@ -59,24 +73,24 @@ app.use(express.static(path.join(__dirname + '../../public')));
 
 // * CONFIGURACION DEL MOTOR DE HANDLEBARS
 app.engine("handlebars", handlebars.engine())
-app.set("views", __dirname + "../../views")
-app.set("view engine" , "handlebars") 
+app.set("views", __dirname + "../../views");
+app.set("view engine" , "handlebars");
 
 
 // * ROUTER
-app.use("/api/products", productsRouter)
-app.use("/api/carts", cartRouter)
-app.use("/api/session", loginRouter)
-app.use("/mockingproducts", mockingProdcutsRouter)
-app.use("/loggerTest", loggerTestRouter)
+app.use("/api/products", productsRouter);
+app.use("/api/carts", cartRouter);
+app.use("/api/session", loginRouter);
+app.use("/mockingproducts", mockingProdcutsRouter);
+app.use("/loggerTest", loggerTestRouter);
 
 // * VISTA products
-app.use("/vista/products", routerVistaProducts)
-app.use("/vista/carts", routerVistaCarts)
-app.use("/vista/users", vistaUsers)
-app.use("/vista/chat", routerChat)
-app.use("/", viewsRouter)
-app.use("/recover-pass", recoverRouter)
+app.use("/vista/products", routerVistaProducts);
+app.use("/vista/carts", routerVistaCarts);
+app.use("/vista/users", vistaUsers);
+app.use("/vista/chat", routerChat);
+app.use("/", viewsRouter);
+app.use("/recover-pass", recoverRouter);
 
 // * HTML REAL TIPO VISTA
 app.use("/vista/realtimeproducts", routerVistaRealTimeProducts);
