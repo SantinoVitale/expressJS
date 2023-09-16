@@ -12,4 +12,9 @@ export default class User{
     const result = await userModel.updateOne({_id: id}, {carts: change})
     return result
   }
+
+  async getById(uid){
+    const users = await userModel.findById(uid)
+    return users
+  }
 }

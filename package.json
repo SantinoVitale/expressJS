@@ -6,12 +6,16 @@
   "type": "module",
   "scripts": {
     "start": "node src/app.js",
-    "test": "nodemon src/app.js"
+    "dev": "nodemon src/app.js",
+    "test-products": "mocha test/Products.test.js",
+    "test-carts": "mocha test/Carts.test.js",
+    "test-users": "mocha test/Users.test.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "assert": "^2.1.0",
     "bcrypt": "^5.1.0",
     "connect-mongo": "^5.0.0",
     "cookie-parser": "^1.4.6",
@@ -33,6 +37,7 @@
     "winston": "^3.10.0"
   },
   "devDependencies": {
-    "@faker-js/faker": "^8.0.2"
+    "@faker-js/faker": "^8.0.2",
+    "mocha": "^10.2.0"
   }
 }
