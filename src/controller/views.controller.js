@@ -1,7 +1,13 @@
-class ViewsController{
-  logout(req, res){
-    req.logger.http(`${req.method} at ${req.url} - ${new Date().toLocaleDateString()}`);
+import moment from "moment-timezone";
+import { userModel } from "../dao/models/user.model.js";
 
+class ViewsController{
+  async logout(req, res){
+    req.logger.http(`${req.method} at ${req.url} - ${new Date().toLocaleDateString()}`);
+    const fechaActualArgentina = moment().tz('America/Argentina/Buenos_Aires');
+    const fechaHoraArgentina = "Logout: " + fechaActualArgentina.format('YYYY-MM-DD HH:mm:ss');
+    const response = await userModel.updateOne({email: req.session.user.email}, {last_connection: fechaHoraArgentina})
+    req.logger.info(req.session.user.email +" last_connection actualizado");
     req.session.destroy((err) => {
       if(err){
           return res.render("error-page", {msg: "no se pudo cerrar la session"});

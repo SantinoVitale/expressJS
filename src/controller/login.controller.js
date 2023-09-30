@@ -52,6 +52,12 @@ class LoginController{
       })
     }
   }
+
+  async postDocument(req, res) {
+    console.log(req.file);
+    if(!req.files || req.files.length === 0) return res.status(400).send({status: "error", error: "No se pudo guardar el archivo"})
+    console.log(req.file);
+  }
 }
 
 export const loginController = new LoginController()

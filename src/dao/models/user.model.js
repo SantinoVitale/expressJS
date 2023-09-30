@@ -38,6 +38,13 @@ const userSchema = new mongoose.Schema({
         }
       }
     ]
+  },
+  documents:{
+    name:{type: String},
+    reference: {type: String}
+  },
+  last_connection:{
+    type: String
   }
 });
 userSchema.plugin(mongoosePaginate);

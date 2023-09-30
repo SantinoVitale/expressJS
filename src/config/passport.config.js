@@ -5,6 +5,7 @@ import { createHash, isValidPassword } from "../utils/bcrypt.js";
 import GitHubStrategy from "passport-github";
 import customError from "../errors/custom-error.js";
 import EErros from "../errors/enum.js";
+import moment from "moment-timezone";
 
 const localStrategy = local.Strategy;
 const initializatePassport = () => {
@@ -42,6 +43,9 @@ const initializatePassport = () => {
       }
       if(user.role === "admin" && user.password === password) return done(null, user)
       if(!isValidPassword(user, password)) return done(null, false);
+      const fechaActualArgentina = moment().tz('America/Argentina/Buenos_Aires');
+      const fechaHoraArgentina = "login: " + fechaActualArgentina.format('YYYY-MM-DD HH:mm:ss');
+      const res = await userModel.updateOne({email: username}, {last_connection: fechaHoraArgentina})
       return done(null, user)
     } catch(error) {
       return done(error)

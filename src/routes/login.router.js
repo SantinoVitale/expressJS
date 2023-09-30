@@ -1,6 +1,7 @@
 import express from 'express';
 import passport from 'passport';
 import { loginController } from "../controller/login.controller.js"
+import { uploader } from '../utils/multer.js';
 
 export const loginRouter = express.Router();
 
@@ -15,3 +16,5 @@ loginRouter.get("/githubcallback", passport.authenticate("github", {failureRedir
 loginRouter.get("/current", loginController.current)
 
 loginRouter.get("/premium/:uid", loginController.setPremium)
+
+loginRouter.post("/:uid/documents", uploader.array("file"), loginController.postDocument)

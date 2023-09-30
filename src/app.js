@@ -80,7 +80,7 @@ app.set("view engine" , "handlebars");
 // * ROUTER
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartRouter);
-app.use("/api/session", loginRouter);
+app.use("/api/users", loginRouter);
 app.use("/mockingproducts", mockingProdcutsRouter);
 app.use("/loggerTest", loggerTestRouter);
 
