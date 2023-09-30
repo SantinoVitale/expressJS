@@ -17,4 +17,6 @@ loginRouter.get("/current", loginController.current)
 
 loginRouter.get("/premium/:uid", loginController.setPremium)
 
-loginRouter.post("/:uid/documents", uploader.array("file"), loginController.postDocument)
+loginRouter.post("/:uid/profiles", uploader.array("file-profiles"), loginController.postDocument)
+loginRouter.post("/:uid/documents", uploader.array("file-documents"), loginController.postDocument)
+loginRouter.post("/:uid/products", uploader.array("file-products"), loginController.postDocument)

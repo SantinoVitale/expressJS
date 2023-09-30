@@ -1,8 +1,29 @@
 <div>
-  <h1>Bienvenido a su perfil, {{user}}</h1>
-  <p>Su rol es: {{role}}</p>
-  <p>Su email es: {{email}}</p>
-  <a href="/api/users/premium/{{id}}">Cambiar rol</a>
-  <a href="/products-manager">Manager de productos</a>
-  <a href="/logout">Logout</a>
+  <div>
+    <h1>Bienvenido a su perfil, {{user}}</h1>
+    <p>Su rol es: {{role}}</p>
+    <p>Su email es: {{email}}</p>
+    <a href="/api/users/premium/{{id}}">Cambiar rol</a>
+    <a href="/products-manager">Manager de productos</a>
+    <a href="/logout">Logout</a>
+    <a href="/">Home</a>
+  </div>
+  <div>
+    <h2>formulario para subir documentos</h2>
+    <p>En caso de imagen de perfil:</p>
+    <form action="/api/users/{{id}}/profiles" method="post" enctype="multipart/form-data">
+      <input type="file" name="file-profiles" accept="image/*">
+      <button type="submit">Subir archivo de perfil</button>
+    </form>
+    <p>En caso de documento</p>
+    <form action="/api/users/{{id}}/documents" method="post" enctype="multipart/form-data">
+      <input type="file" name="file-documents" accept=".doc, .docx, .pdf, .txt">
+      <button type="submit">Subir archivo de documento</button>
+    </form>
+    <p>En caso de imagen de producto</p>
+    <form action="/api/users/{{id}}/products" method="post" enctype="multipart/form-data">
+      <input type="file" name="file-products" accept="image/*">
+      <button type="submit">Subir archivo de producto</button>
+    </form>
+  </div>
 </div>

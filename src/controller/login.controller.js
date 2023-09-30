@@ -1,6 +1,10 @@
 import UsersDTO from "../dao/DTO/users.dto.js";
 import { userModel } from "../dao/models/user.model.js";
 import customError from "../errors/custom-error.js";
+import fs from "fs";
+import path from "path";
+import { __dirname } from "../utils/dirname.js";
+import EErros from "../errors/enum.js"
 
 class LoginController{
   register(req, res){
@@ -34,14 +38,26 @@ class LoginController{
   }
 
   async setPremium(req, res){
-    const {uid} = req.params
-    const result = await userModel.findOne({_id: uid})
+    const { uid } = req.params;
+    const result = await userModel.findOne({ _id: uid });
+
+    const documentsPath = path.join(__dirname, "../public/documents/documents");
+    const filesToCheck = ["identificacion", "comprobante_domicilio", "comprobante_cuenta"];
+
+    const filesExist = filesToCheck.every((fileName) => {
+      const files = fs.readdirSync(documentsPath);
+      const fileExists = files.some((file) => file.startsWith(`${uid}-${fileName}`));
+      return fileExists;
+    });
+
+    console.log(filesExist);
+
     if(result.role === "premium"){
       const setUser = await userModel.updateOne({_id: uid}, {role: "user"})
-      return res.render("success-products", {message: "Usuario cambiado a user"})
-    } else if(result.role === "user"){
+      return res.render("success", {message: "Usuario cambiado a user"})
+    } else if(filesExist){
       const setPremium = await userModel.updateOne({_id: uid}, {role: "premium"})
-      return res.render("success-products", {message: "Usuario cambiado a premium"})
+      return res.render("success", {message: "Usuario cambiado a premium"})
     } else {
       req.logger.error("No se puede cambiar el rol al admin")
       return customError.createError({
@@ -54,9 +70,8 @@ class LoginController{
   }
 
   async postDocument(req, res) {
-    console.log(req.file);
     if(!req.files || req.files.length === 0) return res.status(400).send({status: "error", error: "No se pudo guardar el archivo"})
-    console.log(req.file);
+    return res.render("success", {message: "Archivo subido con exito"})
   }
 }
 
