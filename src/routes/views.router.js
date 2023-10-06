@@ -21,7 +21,7 @@ viewsRouter.get("/profile", isUser, viewsController.profile)
 viewsRouter.get("/admin-only", isAdmin, viewsController.adminOnly)
 
 viewsRouter.get("/products-manager", isAdmin, (req, res) => {
-  res.render("products-form", {role: req.user.role})
+  res.render("products-form", {user: req.user})
 })
 
 viewsRouter.get("/", (req, res) => {

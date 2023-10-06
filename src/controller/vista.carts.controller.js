@@ -6,6 +6,7 @@ class VistaCartsController{
     
     let {cid} = req.params
     const cartVista = await cartsService.getAllVista(cid)
+    console.log(cartVista);
     return res.status(200).render("carts", {h1title: cid + " cart´s" , cart: cartVista})
   }
 }

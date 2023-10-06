@@ -14,8 +14,8 @@ export default class Cart{
   }
 
   getCartById = async (cid) => {
-    const cart = await cartModel.find({_id:cid}).populate("products.product").populate("users");
-    return cart
+    const cart = await cartModel.find({_id:cid}).populate("products.product.title").populate("users");
+    return cart;
   }
 
   postProduct = async (cid, newProduct) => {

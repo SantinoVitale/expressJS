@@ -13,6 +13,11 @@ export default class Product{
     return products
   }
 
+  async getById(pid){
+    let productById = await productModel.findById(pid);
+    return productById;
+  }
+
   async postProduct(title, description, price, code, thumbail, stock, category, ownerRole, ownerEmail){
     if(ownerRole === "premium"){
       let result = await productModel.create({

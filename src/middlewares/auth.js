@@ -45,9 +45,10 @@ export function isUserNotAdmin(req, res, next){
 
 export async function isUserOwner(req, res, next){
   if(req.user.email && req.user.role === "user" || req.user.email && req.user.role === "premium"){
-    const cart = new Cart
-    const userCart = await cart.getCartById(req.params.cid)
-    if(userCart[0].users.email === req.user.email && req.user.role === "premium"){
+    const product = new Product
+    const userIsProduct = await product.getById(req.params.pid);
+    console.log(userIsProduct);
+    if(userIsProduct === req.user.email && req.user.role === "premium"){
       req.logger.error("El usuario no puede meter agregar el producto en el cual es dueño")
       return customError.createError({
         name: "User is product owner",

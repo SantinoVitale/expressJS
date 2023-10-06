@@ -29,6 +29,7 @@ class CartsController{
     req.logger.http(`${req.method} at ${req.url} - ${new Date().toLocaleDateString()}`);
 
     let {cid} = req.params
+    console.log(cid);
     const cartsId = await cartsService.getOne(cid);
     if(cartsId == []){
     return res.status(200).json({status:"success",
@@ -55,7 +56,7 @@ class CartsController{
     let pQuantity = req.body
     const result = await cartsService.postProduct(cid, pid, pQuantity)
     if(result){
-        return res.render("success-products", {message: "Producto agregado correctamente!"})
+        return res.render("success", {message: "Producto agregado correctamente!"})
     } else{
       req.logger.error(`No se pudo actualizar los productos del carrito con el id: ${cid}`);
       return customError.createError({
