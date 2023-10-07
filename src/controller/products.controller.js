@@ -32,7 +32,7 @@ class ProductsController{
             code: EErros.PRODUCT_MANAGER_ERROR
         })
         }
-        return res.render("success", {message: "Producto agregado correctamente!"})
+        return res.render("success", {status:"success", message: "Producto agregado correctamente!", payload:{result}, redirect:"product-manager"})
     }
 
     async put(req, res){
@@ -50,7 +50,7 @@ class ProductsController{
             code: EErros.PRODUCT_MANAGER_ERROR
         })
         } 
-        return res.render("success", {message: "Producto actualizado correctamente!"})
+        return res.render("success", {status:"success", message: "Producto actualizado correctamente!", payload:{result}, redirect:"product-manager"})
     }
 
     async delete(req, res){
@@ -68,7 +68,7 @@ class ProductsController{
             code: EErros.PRODUCT_MANAGER_ERROR
         })
         } 
-        return res.render("success-products", {message: "Producto eliminado correctamente!"})
+        return res.render("success-products", {status:"success", message: "Producto eliminado correctamente!", payload:{result}, redirect:"product-manager"})
     }
 }
 

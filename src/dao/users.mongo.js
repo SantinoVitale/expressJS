@@ -8,13 +8,23 @@ export default class User{
     return users
   }
 
+  async get(){
+    const users = await userModel.find();
+    return users
+  }
+
   async put(id, change){
-    const result = await userModel.updateOne({_id: id}, {carts: change})
-    return result
+    const result = await userModel.updateOne({_id: id}, {carts: change});
+    return result;
   }
 
   async getById(uid){
     const users = await userModel.findById(uid)
     return users
+  }
+
+  async deleteById(uid){
+    const deleteUser = await userModel.deleteOne({_id: uid})
+    return deleteUser
   }
 }

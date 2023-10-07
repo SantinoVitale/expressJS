@@ -6,7 +6,8 @@ export default class UsersVistaDTO {
         first_name: u.firstName,
         last_name: u.lastName,
         email: u.email,
-        carts: u.carts.toString()        
+        role: u.role,
+        carts: u.carts      
       }
     })
     this.pagination = {

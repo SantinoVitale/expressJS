@@ -1,7 +1,15 @@
 export default class UsersDTO {
   constructor(user) {
-    this.first_name = user.firstName;
-    this.last_name = user.lastName;
-    this.email = user.email
+    this.users = user.map((u) => {
+      return {
+        id: u._id,
+        first_name: u.firstName,
+        last_name: u.lastName,
+        email: u.email,
+        role: u.role,
+        last_connection: u.last_connection
+      }
+    });
+    
   }
 }

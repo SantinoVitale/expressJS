@@ -38,7 +38,7 @@ class ViewsController{
 
   profile(req, res){
     req.logger.http(`${req.method} at ${req.url} - ${new Date().toLocaleDateString()}`);
-    console.log(req.user);
+    req.logger.debug(req.user);
     return res.render("profile", {user: req.user.firstName, role: req.user.role, email: req.user.email, id: req.user._id.toString()});
   }
 

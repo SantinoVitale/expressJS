@@ -1,0 +1,36 @@
+<div>
+  <h1>Manager de usuarios</h1>
+  <div class="products-container">
+  {{#each users}}
+  <div class="product">
+    <form action="/api/users/{{this.id}}/delete" method="post">
+      <p>ID: {{this.id}}</p>
+      <p>Nombre y apellido: {{this.first_name}}  {{this.last_name}}</p>
+      <p>Email: {{this.email}}</p>
+      <p>Rol: {{this.role}}</p>
+      <p>Carrito: {{this.carts}}</p>
+      <a href="/api/users/premium/{{this.id}}">Cambiar rol</a>
+      <input type="submit" value="Borrar este usuario">
+    </form>
+  </div>
+  {{/each}}
+  </div>
+  <hr>
+  <hr>
+  <h3>Paginacion</h3>
+    <p>
+      pagingCounter: 
+      {{pagingCounter}}
+      totalPages: 
+      {{totalPages}}
+      page: 
+      {{page}}
+      {{#if hasPrevPage}}
+      <a href="http://localhost:8080/vista/users-manager?page={{prevPage}}">prev page</a>
+      {{/if}}
+      {{#if hasNextPage}}
+      <a href="http://localhost:8080/vista/users-manager?page={{nextPage}}">next page</a>
+      {{/if}}
+    </p>
+
+</div>
