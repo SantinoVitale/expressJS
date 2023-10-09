@@ -16,7 +16,7 @@ export function isUser(req, res, next) {
   })
 }
 export function isAdmin(req, res, next){
-  if(req.user.email && req.user.role === "admin" || req.user.role === "premium"){
+  if(req.user.email && req.user.role === "admin"){
     return next();
   } else{
     req.logger.error("No es administrador")
@@ -29,6 +29,20 @@ export function isAdmin(req, res, next){
   }
   
   
+}
+
+export function isAdminOrPremium(req, res, next){
+  if(req.user.email && req.user.role === "admin" || req.user.role === "premium"){
+    return next();
+  } else{
+    req.logger.error("No es administrador o premium")
+    return customError.createError({
+    name: "Not admin or premium",
+    cause: "The user is not an admin or premium",
+    message: "Please, log in as ADMIN or a premium",
+    code: EErros.USER_PERMISSION_ERROR
+  })
+  }
 }
 
 export function isUserNotAdmin(req, res, next){

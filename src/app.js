@@ -58,10 +58,10 @@ connectMongo();
 
 // * PERSISTENCIA DE SESSION CON MONGO
 app.use(session({
-    store: MongoStore.create({ mongoUrl: 'mongodb+srv://s_vitale:svet5694@ecommercecluster.qhialqm.mongodb.net/', ttl: 86400 * 7}),
+    store: MongoStore.create({ mongoUrl: 'mongodb+srv://s_vitale:svet5694@ecommercecluster.qhialqm.mongodb.net/', ttl: 7200}),
     secret: 'secret',
-    resave: true,
-    saveUninitialized: true,
+    resave: false,
+    saveUninitialized: false,
 }));
 initializatePassport();
 app.use(passport.initialize());

@@ -1,5 +1,5 @@
 import express from "express";
-import { isAdmin, isUser } from "../middlewares/auth.js";
+import { isAdmin, isAdminOrPremium, isUser } from "../middlewares/auth.js";
 import { viewsController } from "../controller/views.controller.js";
 
 const app = express()
@@ -20,7 +20,7 @@ viewsRouter.get("/profile", isUser, viewsController.profile)
 
 viewsRouter.get("/admin-only", isAdmin, viewsController.adminOnly)
 
-viewsRouter.get("/products-manager", isAdmin, (req, res) => {
+viewsRouter.get("/products-manager", isAdminOrPremium, (req, res) => {
   res.render("products-form")
 })
 

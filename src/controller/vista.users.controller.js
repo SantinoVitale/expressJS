@@ -15,7 +15,7 @@ class VistaUsersController{
       hasNextPage: users.pagination.hasNextPage,
       prevPage: users.pagination.prevPage,
       nextPage: users.pagination.nextPage
-    })
+    });
   }
 
   async getManager(req, res){

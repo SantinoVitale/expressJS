@@ -1,6 +1,8 @@
+import { apiUrl } from "../app.js";
 import customError from "../errors/custom-error.js";
 import EErros from "../errors/enum.js"
 import {productsService} from "../service/products.service.js"
+import { sendMailTransport } from "../utils/mailTransport.js";
 
 class ProductsController{
     async get(req, res){
@@ -32,7 +34,7 @@ class ProductsController{
             code: EErros.PRODUCT_MANAGER_ERROR
         })
         }
-        return res.render("success", {status:"success", message: "Producto agregado correctamente!", payload:{result}, redirect:"product-manager"})
+        return res.render("success", {status:"success", message: "Producto agregado correctamente!", payload:{result}, redirect:"products-manager"})
     }
 
     async put(req, res){
@@ -50,14 +52,30 @@ class ProductsController{
             code: EErros.PRODUCT_MANAGER_ERROR
         })
         } 
-        return res.render("success", {status:"success", message: "Producto actualizado correctamente!", payload:{result}, redirect:"product-manager"})
+        return res.render("success", {status:"success", message: "Producto actualizado correctamente!", payload:{result}, redirect:"products-manager"})
     }
 
     async delete(req, res){
         req.logger.http(`${req.method} at ${req.url} - ${new Date().toLocaleDateString()}`);
 
         let {pid} = req.body
-        console.log(req.body);
+        
+        const findOwner = await productsService.getById(pid)
+        console.log(findOwner);
+        if(findOwner.owner !== "admin"){
+            const sendMail = sendMailTransport.sendMail({
+                from: process.env.GOOGLE_MAIL,
+                to: findOwner.owner,
+                subject: "Se ha eliminado su producto de la página",
+                html:`
+                    <div>
+                        <h1>Un admin ha borrado su producto de la página ecommerce</h1>
+                        <p>Entre al siguiente <a href="${apiUrl}/" >Link</a> para revisar que producto se borró</p>
+                    </div>
+                `     
+            })
+            req.logger.debug("Mail mandado a: " + findOwner.owner)
+        }
         const result = await productsService.delete(pid)
         if(!result){
             req.logger.error(`No se pudo borrar el producto con el ID: ${pid}, revisar porfavor los datos`);
@@ -68,7 +86,7 @@ class ProductsController{
             code: EErros.PRODUCT_MANAGER_ERROR
         })
         } 
-        return res.render("success-products", {status:"success", message: "Producto eliminado correctamente!", payload:{result}, redirect:"product-manager"})
+        return res.render("success", {status:"success", message: "Producto eliminado correctamente!", payload:{result}, redirect:"products-manager"})
     }
 }
 

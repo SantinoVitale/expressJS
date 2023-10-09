@@ -26,8 +26,9 @@
   {{#each products}}
   <div class="product">
     <form action="/api/carts/{{../cart}}/products/{{this._id}}" method="post">
+      <p>id: {{this._id}}</p>
       <p>nombre: {{this.title}}</p>
-      <p>id: {{this.price}}</p>
+      <p>descripción: {{this.description}}</p>
       <p>precio: ${{this.price}}</p>
       <input type="number" name="quantity" placeholder="Ingresar la cantidad">
       <input type="submit" value="Agregar producto al carrito">

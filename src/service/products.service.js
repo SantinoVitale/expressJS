@@ -37,6 +37,11 @@ class ProductsService{
     let result = await product.deleteProduct(pid)
     return result
   }
+
+  async getById(pid){
+    let result = await product.getById(pid)
+    return result
+  }
 }
 
 export const productsService = new ProductsService()
