@@ -4,15 +4,18 @@
   {{else}}
   <h1>UNKOWN TITLE</h1>
   {{/if}}
-  <p>{{cart}}</p>
+  <div class="products-container">
   {{#each cart}}
-    <p>cantidad: {{this.quantity}}</p> 
-    <p>nombre: {{this.title}}</p>
-    <p>descripcion: {{this.description}}</p>
-    <p>precio: {{this.price}}</p>
-    <p>categoria: {{this.category}}</p>
-    <hr/>
+  <div class="product">
+      <p>id: {{this.id}}</p>
+      <p>nombre: {{this.title}}</p>
+      <p>descripción: {{this.description}}</p>
+      <p>precio: ${{this.price}}</p>
+  </div>
   {{/each}}
+  </div>
+  <a href="/">Home</a>
   <a href="/logout">Logout</a>
+
 </div>
 <script src="/js/vista.products.js"></script>

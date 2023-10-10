@@ -74,12 +74,12 @@ class CartsService{
     let carts = await cart.getCartById(cid)
     const cartVista = carts[0].products.map((p) => {
       return {
+        id: p._id,
         quantity: p.quantity,
         title: p.product.title,
         description: p.product.description,
         price: p.product.price,
         category: p.product.category,
-  
       }
     })
     return cartVista

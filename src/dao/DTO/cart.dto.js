@@ -1,7 +1,8 @@
 export default class CartDTO {
   constructor(cart) {
-    this.products = cart[0].products.map((product) => {
+    this.products = cart.products.map((product) => {
       return {
+        id: product._id,
         title: product.title,
         description: product.description,
         price: product.price,

@@ -56,7 +56,7 @@ class CartsController{
     let pQuantity = req.body
     const result = await cartsService.postProduct(cid, pid, pQuantity)
     if(result){
-        return res.render("success", {status: "success", message: "Producto agregado correctamente!", payload: {result}, redirect:"vista-products"})
+        return res.render("success", {status: "success", message: "Producto agregado correctamente!", payload: {result}, redirect:"vista/products"})
     } else{
       req.logger.error(`No se pudo actualizar los productos del carrito con el id: ${cid}`);
       return customError.createError({
