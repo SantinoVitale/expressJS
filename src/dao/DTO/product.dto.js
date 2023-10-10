@@ -5,7 +5,9 @@ export default class ProductDTO {
         _id: p._id.toString(),
         title: p.title,
         description: p.description,
-        price: p.price
+        price: p.price,
+        stock: p.stock,
+        owner: p.owner
       }})
     this.pagination = {
       totalDocs: p.totalDocs,

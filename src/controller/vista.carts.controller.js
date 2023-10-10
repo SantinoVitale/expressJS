@@ -5,9 +5,9 @@ class VistaCartsController{
     req.logger.http(`${req.method} at ${req.url} - ${new Date().toLocaleDateString()}`);
     
     let {cid} = req.params
-    const cartVista = await cartsService.getAllVista(cid)
-    console.log(cartVista);
-    return res.status(200).render("carts", {h1title: cid + " cart´s" , cart: cartVista})
+    let cartVista = await cartsService.getAllVista(cid)
+    if(!cartVista) cartVista = false
+    return res.status(200).render("carts", {h1title: cid + " cart´s" , cart: cartVista, cid: cid})
   }
 }
 

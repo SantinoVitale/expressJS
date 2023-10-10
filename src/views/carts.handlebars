@@ -4,16 +4,31 @@
   {{else}}
   <h1>UNKOWN TITLE</h1>
   {{/if}}
+  
+  {{#if cart}}
+  <h3>Productos del carrito</h3>
   <div class="products-container">
   {{#each cart}}
   <div class="product">
+    <form action="/api/carts/{{../cid}}/products/{{this.id}}/delete" method="post">
       <p>id: {{this.id}}</p>
       <p>nombre: {{this.title}}</p>
       <p>descripción: {{this.description}}</p>
       <p>precio: ${{this.price}}</p>
+      <h5>cantidad: {{this.quantity}} </h5>
+      <input type="submit" value="Borrar producto del carrito">
+    </form>
   </div>
   {{/each}}
   </div>
+  <form action="/api/carts/{{cid}}/purchase" method="post">
+    <input type="submit" value="FINALIZAR COMPRA">
+  </form>
+  {{else}}
+  <h3>No hay productos en el carrito!</h3>
+  {{/if}}
+  
+  
   <a href="/">Home</a>
   <a href="/logout">Logout</a>
 

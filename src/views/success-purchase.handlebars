@@ -1,0 +1,25 @@
+<div>
+  <h1>Se realizó la compra con éxito</h1>
+  <h4>status: {{status}}</h4>
+  <p>Message: {{message}}</p>
+  <h4>Su ticket es: {{ticket}}</h4>
+  {{#if noStockItems}}
+  <h4>Hubo productos que no se pudieron agregar debido a que no había stock, estos son los productos:</h4>
+  <div class="products-container">
+  {{#each noStockItems}}
+  <div class="product">
+      <p>id: {{this.id}}</p>
+      <p>nombre: {{this.title}}</p>
+      <p>descripción: {{this.description}}</p>
+      <p>precio: ${{this.price}}</p>
+      <p>stock: {{this.stock}}</p>
+  </div>
+  {{/each}}
+  </div>
+  {{else}}
+  <h4>No hubo ningun producto sin stock!</h4>
+  {{/if}}
+
+  <a href="/">Volver al inicio</a>
+  <a href="/{{redirect}}">Volver a {{redirect}}</a>
+</div>

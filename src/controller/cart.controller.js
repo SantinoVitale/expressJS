@@ -29,7 +29,6 @@ class CartsController{
     req.logger.http(`${req.method} at ${req.url} - ${new Date().toLocaleDateString()}`);
 
     let {cid} = req.params
-    console.log(cid);
     const cartsId = await cartsService.getOne(cid);
     if(cartsId == []){
     return res.status(200).json({status:"success",
@@ -56,7 +55,8 @@ class CartsController{
     let pQuantity = req.body
     const result = await cartsService.postProduct(cid, pid, pQuantity)
     if(result){
-        return res.render("success", {status: "success", message: "Producto agregado correctamente!", payload: {result}, redirect:"vista/products"})
+        const cartVista = await cartsService.getAllVista(cid)
+        return res.render("carts", {h1title: cid + " cart´s" , cart: cartVista, cid: cid})
     } else{
       req.logger.error(`No se pudo actualizar los productos del carrito con el id: ${cid}`);
       return customError.createError({
@@ -75,10 +75,8 @@ class CartsController{
     let {pid} = req.params
     const finalResponse = await cartsService.deleteProduct(cid, pid)
     if(finalResponse){
-      return res.status(200).json({status:"success",
-      msg: "product deleted",
-      data:{finalResponse}
-    })
+      const cartVista = await cartsService.getAllVista(cid)
+      return res.render("carts", {h1title: cid + " cart´s" , cart: cartVista, cid: cid})
     } else{
       req.logger.error(`No se pudo borrar los productos del carrito con el id: ${cid}`);
       return customError.createError({
@@ -138,17 +136,15 @@ class CartsController{
     req.logger.http(`${req.method} at ${req.url} - ${new Date().toLocaleDateString()}`);
 
     let {cid} = req.params
-    const cartInfo = await cartsService.purchase(cid, req.user)
-    if(!cartInfo) return customError.createError({
-      name: "No stock from the product",
-      cause: "Cant do the purchase because there is no stock left",
-      message: "Pls purchase a product with stock or wait to stock refill",
-      code: EErros.CART_MANAGER_ERROR
-    })
-    return res.status(200).json({
+    const cartInfo = await cartsService.purchase(cid, req.user, req)
+    if(!cartInfo.status) return res.status(400).render("error", {status: "error", title: cartInfo.title, cause: cartInfo.cause, message: cartInfo.cause})
+    req.logger.debug(cartInfo)
+    return res.status(200).render("success-purchase",{
       status:"success",
-      msg: "product updated",
-      data:{cartInfo}
+      message: "the purchase was successfully",
+      noStockItems: cartInfo.itemsWithNoStock,
+      ticket: cartInfo.ticket,
+      redirect: "vista/carts/" + cid
     })
   }
 }

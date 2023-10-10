@@ -32,7 +32,7 @@ class RecoverPassController {
       res.render("recover-form", {code: code, email: email})
     } else {
       req.logger.error("El codigo de recuperacion está vencido")
-      res.render("error")
+      return res.status(400).render("error", {status: "error", title:"fecha expirada", cause: "Se expiró el tiempo para recuperar su contraseña, porfavor, genere otro código", message: "Expirado"})
     }
   }
 
@@ -47,7 +47,7 @@ class RecoverPassController {
       const checkUser = await userModel.findOne({email: email})
       if(isValidPassword(checkUser, password)){
         req.logger.error("La contraseña nueva es la misma que la anterior, porfavor cambiela")
-        return res.render("error")
+        return res.status(400).render("error", {status: "error", title:"Misma contraseña", cause: "La contraseña es la misma que la anterior, porfavor, cambiela", message: ""})
       }else {
         const updatePassword = await userModel.updateOne({email: email}, {password: createHash(password)})
         req.logger.debug(updatePassword)
@@ -57,7 +57,7 @@ class RecoverPassController {
       
     } else {
       req.logger.error("El codigo de recuperacion está vencido")
-      res.render("error")
+      return res.status(400).render("error", {status: "error", title:"fecha expirada", cause: "Se expiró el tiempo para recuperar su contraseña, porfavor, genere otro código", message: "Expirado"})
     }
   }
 }

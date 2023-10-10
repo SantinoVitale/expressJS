@@ -27,17 +27,21 @@ import { loggerTestRouter } from "./routes/loggerTestRouter.js";
 import { recoverRouter } from "./routes/recover-pass.router.js";
 import swaggerJsdoc from "swagger-jsdoc";
 import swaggerUiExpress from "swagger-ui-express";
+import methodOverride from "method-override"
 
 // * CONFIGURACION EXPRESS
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(addLogger)
+app.use(addLogger);
 const port = config.port;
 export const mongourl = config.mongourl;
 export const sshurl = config.sshurl;
-export const apiUrl = config.apiUrl
+export const apiUrl = config.apiUrl;
+app.use(methodOverride('_method'));
+
+
 
 const swaggerOptions = {
     definition:{

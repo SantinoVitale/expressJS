@@ -10,7 +10,7 @@ class ViewsController{
     req.logger.info(req.session.user.email +" last_connection actualizado");
     req.session.destroy((err) => {
       if(err){
-          return res.render("error-page", {msg: "no se pudo cerrar la session"});
+          return res.status(400).render("error", {status: "error", title:"Algo salió mal", cause:"Hubo un error a la hora de intentar desloguear", message: err});
       }
       return res.redirect("/login");
   })

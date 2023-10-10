@@ -58,7 +58,6 @@ class LoginController{
       return fileExists;
     });
 
-    console.log(filesExist);
 
     if(result.role === "premium"){
       const setUser = await userModel.updateOne({_id: uid}, {role: "user"})

@@ -6,7 +6,6 @@ const user = new User()
 class UsersService{
   async getAll(page, limit){
     const users = await user.getAll(page, limit);
-    console.log(users);
     const usersDTO = new UsersVistaDTO(users);
     return usersDTO;
   }

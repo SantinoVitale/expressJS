@@ -14,7 +14,7 @@ export default class Cart{
   }
 
   getCartById = async (cid) => {
-    const cart = await cartModel.find({_id:cid}).populate("products.product").populate("users");
+    const cart = await cartModel.findOne({_id:cid}).populate("products.product").populate("users");
     return cart;
   }
 

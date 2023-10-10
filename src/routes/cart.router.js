@@ -13,7 +13,7 @@ cartRouter.get("/:cid", cartsController.getOne)
 
 cartRouter.post("/:cid/products/:pid", isUserOwner, cartsController.postProduct)
 
-cartRouter.delete(("/:cid/products/:pid"), cartsController.deleteProduct)
+cartRouter.post(("/:cid/products/:pid/delete"), cartsController.deleteProduct)
 
 cartRouter.put(("/:cid"), cartsController.updateCart)
 
@@ -21,4 +21,4 @@ cartRouter.put(("/:cid/products/:pid"), cartsController.updateProduct)
 
 cartRouter.delete(("/:cid"), cartsController.emptyCart)
 
-cartRouter.get(("/:cid/purchase"), cartsController.purchase)
+cartRouter.post(("/:cid/purchase"), cartsController.purchase)
