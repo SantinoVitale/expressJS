@@ -2,10 +2,10 @@ import dotenv from "dotenv";
 
 
 
-const environment = "DEVELOPMENT";
+const mode = process.argv[2];
 
 dotenv.config({
-  path:environment=== "DEVELOPMENT"? "./.env.development" : "./.env.production"
+  path:mode=== "DEVELOPMENT"? "./.env.development" : "./.env.production"
 });
 
 

@@ -5,8 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node src/app.js",
-    "dev": "nodemon src/app.js",
+    "start": "node src/app.js --mode PRODUCTION",
+    "dev": "nodemon src/app.js --mode DEVELOPMENT",
     "test-products": "mocha test/Products.test.js",
     "test-carts": "mocha test/Carts.test.js",
     "test-users": "mocha test/Users.test.js"
