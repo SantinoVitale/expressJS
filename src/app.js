@@ -112,6 +112,20 @@ const httpServer = app.listen(port, () => {
 })
 const socketServer = new Server(httpServer);
 
+app.get("*", (req, res, next) => {
+    try {
+        console.log("estaba haiendo algo");
+        CustomError.createError({
+        name: "Page Not Found",
+        cause: "Non existent path",
+        message: "The path you are trying to access does not exist",
+        code: Errors.ROUTING_ERROR,
+    });
+    } catch (error) {
+        next(error);
+    }
+});
+
 /*socketServer.on("connection", async (socket) => {
     let products = await productModel.find()
     socketServer.emit("get_products", products);
