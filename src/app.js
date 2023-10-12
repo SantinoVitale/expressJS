@@ -27,7 +27,6 @@ import { loggerTestRouter } from "./routes/loggerTestRouter.js";
 import { recoverRouter } from "./routes/recover-pass.router.js";
 import swaggerJsdoc from "swagger-jsdoc";
 import swaggerUiExpress from "swagger-ui-express";
-import methodOverride from "method-override"
 
 // * CONFIGURACION EXPRESS
 const app = express();
@@ -39,7 +38,6 @@ const port = config.port;
 export const mongourl = config.mongourl;
 export const sshurl = config.sshurl;
 export const apiUrl = config.apiUrl;
-app.use(methodOverride('_method'));
 
 
 
